@@ -1,0 +1,7 @@
+/vim/bundle/
+/vim/spell/
+/vim/viminfo
+/vim/autoload/plug.vim*
+/vim/undodir/
+/zsh/oh-my-zsh/
+*.swp
