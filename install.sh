@@ -1,5 +1,6 @@
 #!/bin/bash
 
+VERSION="v0.1"
 BASE_DIR=$(dirname $0)
 cd "${BASE_DIR}"
 BASE_DIR="${PWD}"
@@ -12,7 +13,7 @@ function log {
 function install_zsh {
     cd "${BASE_DIR}/zsh"
     [ ! -d "oh-my-zsh" ] && git clone --recursive https://github.com/robbyrussell/oh-my-zsh
-    cd "oh-my-zsh/custom/plugins"
+    cd "custom/plugins"
     [ ! -d "zsh-autosuggestions" ] && git clone https://github.com/zsh-users/zsh-autosuggestions.git
     cd "zsh-autosuggestions"
     git pull
@@ -24,6 +25,16 @@ function install_zsh {
 		[ -L "${HOME}/.${file}" ] && rm -v "${HOME}/.${file}"
 		ln -sivT "`readlink -f ${file}`" "${HOME}/.${file}"
 	done
+    [ -f ~/.envConf ] && [ "`head -n1 ~/.envConf`"="# zsh config file (version: ${VERSION})" ] && source ~/.envConf ||
+		mv -vi --backup ~/.envConf ~/.envConf_`date +%F_%H%M%S`
+    [ -z "$ZSH_THEME" ] && read -p "please enter the zsh theme you wanna use(to use 'bira' just hit enter): "
+	[ -z "$ZSH_THEME" ] && ZSH_THEME="bira"
+
+    local ZSH_CUSTOM="${BASE_DIR}/zsh/custom"
+    echo "# zsh config file (version: $VERSION)" >~/.envConf
+	echo "ZSH_CUSTOM=\"$ZSH_CUSTOM\"" >>~/.envConf
+	echo "ZSH_THEME=\"$ZSH_THEME\"" >>~/.envConf
+
 }
 
 function install_git {
