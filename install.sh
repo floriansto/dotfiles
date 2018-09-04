@@ -13,6 +13,7 @@ function log {
 function install_zsh {
     cd "${BASE_DIR}/zsh"
     [ ! -d "oh-my-zsh" ] && git clone --recursive https://github.com/robbyrussell/oh-my-zsh
+    [ ! -d "custom/plugins" ] && mkdir -p "custom/plugins"
     cd "custom/plugins"
     [ ! -d "zsh-autosuggestions" ] && git clone https://github.com/zsh-users/zsh-autosuggestions.git
     cd "zsh-autosuggestions"
@@ -34,6 +35,7 @@ function install_zsh {
     echo "# zsh config file (version: $VERSION)" >~/.envConf
 	echo "ZSH_CUSTOM=\"$ZSH_CUSTOM\"" >>~/.envConf
 	echo "ZSH_THEME=\"$ZSH_THEME\"" >>~/.envConf
+    echo "ZSH_DISABLE_COMPFIX=\"true\"" >>~/.envConf
 
 }
 
