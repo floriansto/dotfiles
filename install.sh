@@ -47,7 +47,6 @@ function install_vim {
 
 }
 
-
 for job in git zsh vim; do
 	log "installing configuration for '$job'"
 	install_${job}
