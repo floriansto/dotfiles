@@ -65,8 +65,12 @@ source ~/.envConf
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+  adb
+  colored-man-pages
   colorize
+  dirhistory
   git
+  rsync
   shrink-path
   zsh-autosuggestions
 )
