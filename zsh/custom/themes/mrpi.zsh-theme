@@ -28,9 +28,9 @@ local mydate="$FX[bold]$FG[008]%D{%H:%M:%S}$FX[reset]"
 if [[ $UID -eq 0 ]]; then
     local user_host='%{$terminfo[bold]$fg[red]%}%n@%m%{$reset_color%}'
 elif [[ ! -z $SSH_CONNECTION ]]; then
-    local user_host='%{$terminfo[bold]$fg[green]%}%n@%m%{$reset_color%}'
+    local user_host='%{$terminfo[bold]$fg[yellow]%}%n@%m%{$reset_color%}'
 else
-    local user_host='%{$terminfo[bold]$fg[blue]%}%n@%m%{$reset_color%}'
+    local user_host='%{$terminfo[bold]$fg[green]%}%n@%m%{$reset_color%}'
 fi
 
 local current_dir='%{$terminfo[bold]$fg[blue]%} %~%{$reset_color%}'
