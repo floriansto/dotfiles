@@ -26,9 +26,8 @@ function install_zsh {
 		[ -L "${HOME}/.${file}" ] && rm -v "${HOME}/.${file}"
 		ln -sivT "`readlink -f ${file}`" "${HOME}/.${file}"
 	done
-    [ -f ~/.envConf ] && [ "`head -n1 ~/.envConf`"="# zsh config file (version: ${VERSION})" ] && source ~/.envConf ||
-		mv -vi --backup ~/.envConf ~/.envConf_`date +%F_%H%M%S`
-    [ -z "$ZSH_THEME" ] && read -p "please enter the zsh theme you wanna use(to use 'bira' just hit enter): "
+    [ -f ~/.envConf ] && [ "`head -n1 ~/.envConf`"="# zsh config file (version: ${VERSION})" ] && source ~/.envConf || mv -vi --backup ~/.envConf ~/.envConf_`date +%F_%H%M%S`
+    [ -z "$ZSH_THEME" ] && read -p "please enter the zsh theme you wanna use(to use 'bira' just hit enter): " ZSH_THEME
 	[ -z "$ZSH_THEME" ] && ZSH_THEME="bira"
 
     local ZSH_CUSTOM="${BASE_DIR}/zsh/custom"
