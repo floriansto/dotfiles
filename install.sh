@@ -47,6 +47,7 @@ function install_git {
 function install_vim {
     [ -L "${HOME}/.vim" ] && rm -v "${HOME}/.vim"
     ln -sivT "${BASE_DIR}/vim" "${HOME}/.vim"
+    ln -sivT "${BASE_DIR}/vim/vimrc_${type}" "${BASE_DIR}/vim/vimrc"
     curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     local TMP_VIMRC=`mktemp`
     echo "set nocompatible" >$TMP_VIMRC
@@ -58,6 +59,9 @@ function install_vim {
 	rm -v $TMP_VIMRC
 
 }
+
+type="desktop"
+[ $1 = "server" ] && type=$1
 
 for job in git zsh vim; do
 	log "installing configuration for '$job'"

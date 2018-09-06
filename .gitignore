@@ -3,6 +3,7 @@
 /vim/viminfo
 /vim/autoload/plug.vim*
 /vim/undodir/
+/vim/vimrc
 /zsh/oh-my-zsh/
 /zsh/custom/plugins/zsh-autosuggestions
 *.swp
