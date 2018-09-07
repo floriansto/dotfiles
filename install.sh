@@ -6,8 +6,16 @@ cd "${BASE_DIR}"
 BASE_DIR="${PWD}"
 
 function log {
-	printf '\e[1;33m%*s\e[0m' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
+	printf '\e[1;33m%*s\e[0m' "${COLUMNS}" '' | tr ' ' -
  	printf '\r\e[1;33m-- \e[1;32m%s \e[0m\n' "$*"
+}
+
+function ln_os {
+    if [ ${OSTYPE} = "linux-android" ]; then
+        ln -sv $1 $2
+    else
+        ln -sivT $1 $2
+    fi
 }
 
 function install_zsh {
@@ -24,7 +32,7 @@ function install_zsh {
     cd "${BASE_DIR}/zsh"
     for file in oh-my-zsh zshrc; do
 		[ -L "${HOME}/.${file}" ] && rm -v "${HOME}/.${file}"
-		ln -sivT "`readlink -f ${file}`" "${HOME}/.${file}"
+		ln_os "`readlink -f ${file}`" "${HOME}/.${file}"
 	done
     [ -f ~/.envConf ] && [ "`head -n1 ~/.envConf`"="# zsh config file (version: ${VERSION})" ] && source ~/.envConf || mv -vi --backup ~/.envConf ~/.envConf_`date +%F_%H%M%S`
     [ -z "$ZSH_THEME" ] && read -p "please enter the zsh theme you wanna use(to use 'bira' just hit enter): " ZSH_THEME
@@ -46,8 +54,11 @@ function install_git {
 
 function install_vim {
     [ -L "${HOME}/.vim" ] && rm -v "${HOME}/.vim"
-    ln -sivT "${BASE_DIR}/vim" "${HOME}/.vim"
-    ln -sivT "${BASE_DIR}/vim/vimrc_${type}" "${BASE_DIR}/vim/vimrc"
+    ln_os "${BASE_DIR}/vim" "${HOME}/.vim"
+    read -p "Select vimrc type (standard or develop). For standard just hit enter : " VIM_TYPE
+    [ ${VIM_TYPE} != "develop" ] && VIM_TYPE="standard"
+    ln_os "${BASE_DIR}/vim/vimrc_${VIM_TYPE}" "${BASE_DIR}/vim/vimrc"
+
     curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     local TMP_VIMRC=`mktemp`
     echo "set nocompatible" >$TMP_VIMRC
@@ -59,9 +70,6 @@ function install_vim {
 	rm -v $TMP_VIMRC
 
 }
-
-type="desktop"
-[ $1 = "server" ] && type=$1
 
 for job in git zsh vim; do
 	log "installing configuration for '$job'"
