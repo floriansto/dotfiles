@@ -11,7 +11,7 @@ function log {
 }
 
 function ln_os {
-    if [ ${OSTYPE} = "linux-android" ]; then
+    if [ $OSTYPE = "linux-android" ]; then
         ln -sv $1 $2
     else
         ln -sivT $1 $2
@@ -34,7 +34,9 @@ function install_zsh {
 		[ -L "${HOME}/.${file}" ] && rm -v "${HOME}/.${file}"
 		ln_os "`readlink -f ${file}`" "${HOME}/.${file}"
 	done
-    [ -f ~/.envConf ] && [ "`head -n1 ~/.envConf`"="# zsh config file (version: ${VERSION})" ] && source ~/.envConf || mv -vi --backup ~/.envConf ~/.envConf_`date +%F_%H%M%S`
+    backup=""
+    [ $OSTYPE != "linux-android" ] && backup="--backup"
+    [ -f ~/.envConf ] && [ "`head -n1 ~/.envConf`"="# zsh config file (version: ${VERSION})" ] && source ~/.envConf || mv -vi $backup  ~/.envConf ~/.envConf_`date +%F_%H%M%S`
     [ -z "$ZSH_THEME" ] && read -p "please enter the zsh theme you wanna use(to use 'bira' just hit enter): " ZSH_THEME
 	[ -z "$ZSH_THEME" ] && ZSH_THEME="bira"
 
@@ -55,8 +57,8 @@ function install_git {
 function install_vim {
     [ -L "${HOME}/.vim" ] && rm -v "${HOME}/.vim"
     ln_os "${BASE_DIR}/vim" "${HOME}/.vim"
-    read -p "Select vimrc type (standard or develop). For standard just hit enter : " VIM_TYPE
-    [ ${VIM_TYPE} != "develop" ] && VIM_TYPE="standard"
+    read -p "Select vimrc type (standard or develop). For standard just hit enter: " VIM_TYPE
+    [ "${VIM_TYPE}" != "develop" ] && VIM_TYPE="standard"
     ln_os "${BASE_DIR}/vim/vimrc_${VIM_TYPE}" "${BASE_DIR}/vim/vimrc"
 
     curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
