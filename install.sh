@@ -12,7 +12,7 @@ function log {
 
 function ln_os {
     if [ $OSTYPE = "linux-android" ]; then
-        ln -sv $1 $2
+        ln -sfv $1 $2
     else
         ln -sivT $1 $2
     fi
