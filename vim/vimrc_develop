@@ -53,12 +53,22 @@ nmap tt <C-w><C-w>
 "F7 toggles NERDTree
 nmap <F7> :NERDTreeToggle<CR>
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
+set statusline=%t
+set statusline+=[%{strlen(&fenc)?&fenc:'none'}, "file encoding
+set statusline+=%{&ff}] "file format
+set statusline+=%h      "help file flag
+set statusline+=%m      "modified flag
+set statusline+=%r      "read only flag
+set statusline+=%y      "filetype
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%=      "left/right separator
+set statusline+=%c,     "cursor column
+set statusline+=%l/%L   "cursor line/total lines
+set statusline+=\ %P    "percent through file
 
-let g:ycm_register_as_syntastic_checker = 0
-let g:ycm_show_diagnostics_ui = 0
+"let g:ycm_register_as_syntastic_checker = 0
+"let g:ycm_show_diagnostics_ui = 0
 let g:ycm_add_preview_to_completeopt = 1
 let g:ycm_autoclose_preview_window_after_completion=1
 
