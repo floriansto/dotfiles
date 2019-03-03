@@ -92,6 +92,11 @@ let g:vimtex_latexmk_continuous = 0
 
 let g:tex_flavor = "latex"
 
+if has('persistent_undo')      "check if your vim version supports it
+    set undofile                 "turn on the feature
+    set undodir=$HOME/.vim/undodir  "directory where the undo files will be stored
+endif
+
 set tabstop=4
 set shiftwidth=4
 set expandtab
@@ -110,5 +115,5 @@ autocmd InsertEnter * :set norelativenumber
 autocmd InsertLeave * :set relativenumber
 
 if has("autocmd")
-  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+    au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 endif
