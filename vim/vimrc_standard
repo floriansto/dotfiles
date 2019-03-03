@@ -13,6 +13,7 @@ Plug 'chrisbra/Recover.vim'
 Plug 'ervandew/supertab'
 Plug 'godlygeek/tabular'
 Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdcommenter'
 Plug 'ntpeters/vim-better-whitespace'
 
 call plug#end()
@@ -25,7 +26,7 @@ let g:solarized_visibility="high"
 colorscheme solarized
 set autoread
 set encoding=utf-8
-set mouse=""
+set mouse=a
 set cursorline
 
 "show a undo tree
@@ -48,23 +49,21 @@ nmap tt <C-w><C-w>
 "F7 toggles NERDTree
 nmap <F7> :NERDTreeToggle<CR>
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
+set statusline=%t
+set statusline+=[%{strlen(&fenc)?&fenc:'none'}, "file encoding
+set statusline+=%{&ff}] "file format
+set statusline+=%h      "help file flag
+set statusline+=%m      "modified flag
+set statusline+=%r      "read only flag
+set statusline+=%y      "filetype
+set statusline+=%=      "left/right separator
+set statusline+=%c,     "cursor column
+set statusline+=%l/%L   "cursor line/total lines
+set statusline+=\ %P    "percent through file
 
-let g:ycm_register_as_syntastic_checker = 0
-let g:ycm_show_diagnostics_ui = 0
-let g:ycm_add_preview_to_completeopt = 1
-let g:ycm_autoclose_preview_window_after_completion=1
+let g:NERDTreeQuitOnOpen = 1
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_cpp_compiler = 'g++'
-let g:syntastic_cpp_compiler_options ='-std=c++11'
-let g:syntastic_cpp_check_header = 0
-let g:syntastic_cpp_include_dirs = ['/home/flo/Development/robotics15/src']
+let g:tex_flavor = "latex"
 
 set tabstop=4
 set shiftwidth=4
@@ -72,13 +71,10 @@ set expandtab
 
 "leader
 let mapleader=","
+let maplocalleader = "\\"
 
 set scrolloff=4
 set laststatus=2
-
-"python3 from powerline.vim import setup as powerline_setup
-"python3 powerline_setup()
-"python3 del powerline_setup
 
 set number
 set relativenumber
