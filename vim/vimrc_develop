@@ -80,7 +80,8 @@ let g:syntastic_cpp_compiler = 'g++'
 let g:syntastic_cpp_compiler_options ='-std=c++11'
 let g:syntastic_cpp_check_header = 0
 let g:syntastic_cpp_include_dirs = ['/home/flo/Development/robotics15/src']
-let g:syntastic_quiet_messages = { "regex": ['missing `\ '] }
+"let g:syntastic_quiet_messages = { "regex": ['missing `\ ', 'Use ` to begin quotation'] }
+let g:syntastic_ignore_files = ['\m^/images/', '\m\c\.pdf_tex$', '\m\c\.tex$']
 
 let g:NERDTreeQuitOnOpen = 1
 
@@ -88,7 +89,8 @@ let g:vimtex_view_general_viewer = 'qpdfview'
 let g:vimtex_view_general_options
             \ = '--unique @pdf\#src:@tex:@line:@col'
 let g:vimtex_view_general_options_latexmk = '--unique'
-let g:vimtex_latexmk_continuous = 0
+let g:vimtex_latexmk_continuous = 1
+let g:vimtex_quickfix_mode = 0
 
 let g:tex_flavor = "latex"
 
