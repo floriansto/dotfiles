@@ -56,7 +56,7 @@ function install_git {
 
 function install_vim {
     [ -L "${HOME}/.vim" ] && rm -v "${HOME}/.vim"
-    [ -f "${HOME}/.vimrc ]a && rm -v "${HOME}/.vimrc"
+    [ -f "${HOME}/.vimrc" ] && rm -v "${HOME}/.vimrc"
     ln_os "${BASE_DIR}/vim" "${HOME}/.vim"
     read -p "Select vimrc type (standard or develop). For standard just hit enter: " VIM_TYPE
     [ "${VIM_TYPE}" != "develop" ] && VIM_TYPE="standard"
