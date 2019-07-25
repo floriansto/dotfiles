@@ -10,11 +10,11 @@ Install configuration files for some programs on unix machines to simplify the s
 ## Needed Packages
 ### Debian based systems
 ```sh
-apt install wget git vim zsh
+apt install wget git vim zsh curl
 ```
 ### Arch based systems
 ```sh
-pacman -S wget git vim zsh
+pacman -S wget git vim zsh curl
 ```
 ## Get the source
 ```git
