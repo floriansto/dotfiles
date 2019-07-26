@@ -5,6 +5,14 @@ BASE_DIR=$(dirname $0)
 cd "${BASE_DIR}"
 BASE_DIR="${PWD}"
 
+if [[ $1 == "noconfirm" ]]; then
+    NOCONFIRM=1
+    INTERACTIVE_LN=""
+else
+    NOCONFIRM=0
+    INTERACTIVE_LN="i"
+fi
+
 function log {
     printf '\e[1;33m%*s\e[0m' "$COLUMNS" '' | tr ' ' -
     printf '\r\e[1;33m-- \e[1;32m%s \e[0m\n' "$*"
@@ -14,7 +22,7 @@ function ln_os {
     if [ $OSTYPE = "linux-android" ]; then
         ln -sfv $1 $2
     else
-        ln -sivT $1 $2
+        ln -svT$INTERACTIVE_LN $1 $2
     fi
 }
 
@@ -37,8 +45,8 @@ function install_zsh {
     backup=""
     [ $OSTYPE != "linux-android" ] && backup="--backup"
     [ -f ~/.envConf ] && [ "`head -n1 ~/.envConf`"="# zsh config file (version: ${VERSION})" ] && source ~/.envConf || mv -vi $backup  ~/.envConf ~/.envConf_`date +%F_%H%M%S`
-    [ -z "$ZSH_THEME" ] && read -p "please enter the zsh theme you wanna use(to use 'bira' just hit enter): " ZSH_THEME
-    [ -z "$ZSH_THEME" ] && ZSH_THEME="bira"
+    #[ -z "$ZSH_THEME" ] && read -p "please enter the zsh theme you wanna use(to use 'mrpi' just hit enter): " ZSH_THEME
+    [ -z "$ZSH_THEME" ] && ZSH_THEME="mrpi"
 
     local ZSH_CUSTOM="${BASE_DIR}/zsh/custom"
     echo "# zsh config file (version: $VERSION)" >~/.envConf
@@ -58,7 +66,11 @@ function install_vim {
     [ -L "${HOME}/.vim" ] && rm -v "${HOME}/.vim"
     [ -f "${HOME}/.vimrc" ] && rm -v "${HOME}/.vimrc"
     ln_os "${BASE_DIR}/vim" "${HOME}/.vim"
-    read -p "Select vimrc type (standard or develop). For standard just hit enter: " VIM_TYPE
+    if [[ $NOCONFIRM -eq 1 ]]; then
+        VIM_TYPE="standard"
+    else
+        read -p "Select vimrc type (standard or develop). For standard just hit enter: " VIM_TYPE
+    fi
     [ "${VIM_TYPE}" != "develop" ] && VIM_TYPE="standard"
     ln_os "${BASE_DIR}/vim/vimrc_${VIM_TYPE}" "${BASE_DIR}/vim/vimrc"
 
