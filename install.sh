@@ -83,6 +83,9 @@ function install_vim {
     echo "call plug#end()" >>$TMP_VIMRC
     vim -u "${TMP_VIMRC}" +PlugUpgrade +PlugInstall +PlugUpdate +qall
     rm -v $TMP_VIMRC
+    if [[ ! -d ~/.vim/undodir ]]; then
+        mkdir ~/.vim/undodir
+    fi
 
 }
 
