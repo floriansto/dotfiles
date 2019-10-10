@@ -2,7 +2,6 @@ set nocompatible
 filetype off
 
 highlight Normal ctermfg=grey ctermbg=black
-syntax on
 
 "plugins
 call plug#begin('~/.vim/bundle')
@@ -18,6 +17,7 @@ Plug 'ntpeters/vim-better-whitespace'
 
 call plug#end()
 filetype plugin indent on
+syntax on
 
 set background=dark
 let g:solarized_termcolors=256
