@@ -50,9 +50,10 @@ function install_zsh {
 
     local ZSH_CUSTOM="${BASE_DIR}/zsh/custom"
     echo "# zsh config file (version: $VERSION)" >~/.envConf
-    echo "ZSH_CUSTOM=\"$ZSH_CUSTOM\"" >>~/.envConf
-    echo "ZSH_THEME=\"$ZSH_THEME\"" >>~/.envConf
-    echo "ZSH_DISABLE_COMPFIX=\"true\"" >>~/.envConf
+    echo "export ZSH_CUSTOM=\"$ZSH_CUSTOM\"" >>~/.envConf
+    echo "export ZSH_THEME=\"$ZSH_THEME\"" >>~/.envConf
+    echo "export ZSH_DISABLE_COMPFIX=\"true\"" >>~/.envConf
+    echo "export EDITOR=\"$(which vim)\"" >>~/.envConf
 
 }
 
