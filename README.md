@@ -18,7 +18,7 @@ pacman -S wget git vim zsh curl
 ```
 ## Get the source
 ```git
-git clone http://gitea:3000/flo/dotfiles.git 
+git clone https://gitea.flo-sto.de/flo/dotfiles.git 
 ```
 
 # Usage
