@@ -44,8 +44,8 @@ else
 fi
 local git_info='$fg[blue]$(git_current_branch)$(git_prompt_short_sha)$(git_prompt_status)$(parse_git_dirty)$(git_prompt_ahead)$FX[reset]'
 
-PROMPT="╭─${user_host} ${current_dir} ${rvm_ruby} %{${git_info}%}
-╰─%B$%b "
+PROMPT="${user_host} ${current_dir} ${rvm_ruby} %{${git_info}%}
+%B$%b "
 RPS1="${return_code} ${mydate}"
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[yellow]%}‹"
