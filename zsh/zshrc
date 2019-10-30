@@ -115,3 +115,6 @@ alias kyb='cd "/home/flo/Dokumente/Studium/02 - TechKyb - M.Sc"'
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
         source /etc/profile.d/vte.sh
 fi
+
+# Improve spacing for right prompt
+ZLE_RPROMPT_INDENT=0

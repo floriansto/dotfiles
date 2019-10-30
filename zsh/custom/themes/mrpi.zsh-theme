@@ -21,7 +21,7 @@ ZSH_THEME_GIT_PROMPT_AHEAD=" $fg[red](!)"
 # Format for git_prompt_long_sha() and git_prompt_short_sha()
 ZSH_THEME_GIT_PROMPT_SHA_BEFORE=" $fg[white][$fg[yellow]"
 ZSH_THEME_GIT_PROMPT_SHA_AFTER="$fg[white]]"
-local return_code="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
+local return_code="%(?..%{$fg[red]%}%? %{$reset_color%})"
 local mydate="$FX[bold]$FG[008]%D{%H:%M:%S}$FX[reset]"
 
 
