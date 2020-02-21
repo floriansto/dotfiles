@@ -26,6 +26,7 @@ filetype plugin indent on
 syntax on
 
 set background=dark
+set t_Co=256
 let g:solarized_termcolors=256
 let g:solarized_contrast="high"
 let g:solarized_visibility="high"
