@@ -18,30 +18,24 @@ function log {
     printf '\r\e[1;33m-- \e[1;32m%s \e[0m\n' "$*"
 }
 
-function ln_os {
-    if [ $OSTYPE = "linux-android" ]; then
-        ln -sfv $1 $2
-    else
-        ln -svT$INTERACTIVE_LN $1 $2
-    fi
+function rsync_os {
+    rsync -a $1 $2
 }
 
 function install_zsh {
-    cd "${BASE_DIR}/zsh"
-    [ ! -d "oh-my-zsh" ] && git clone --recursive https://github.com/robbyrussell/oh-my-zsh
+    cd "${HOME}"
+    [ ! -d ".oh-my-zsh" ] && git clone --recursive https://github.com/robbyrussell/oh-my-zsh .oh-my-zsh
+    cd ".oh-my-zsh"
     [ ! -d "custom/plugins" ] && mkdir -p "custom/plugins"
     cd "custom/plugins"
     [ ! -d "zsh-autosuggestions" ] && git clone https://github.com/zsh-users/zsh-autosuggestions.git
     cd "zsh-autosuggestions"
     git pull
-    cd "${BASE_DIR}/zsh"
-    cd "oh-my-zsh"
+    cd "${HOME}/.oh-my-zsh"
     git pull && git submodule update --init --recursive
     cd "${BASE_DIR}/zsh"
-    for file in oh-my-zsh zshrc; do
-        [ -L "${HOME}/.${file}" ] && rm -v "${HOME}/.${file}"
-        ln_os "`readlink -f ${file}`" "${HOME}/.${file}"
-    done
+    rsync_os "zshrc" "${HOME}/.zshrc"
+    rsync_os "custom/" "${HOME}/.oh-my-zsh/custom"
     backup=""
     [ $OSTYPE != "linux-android" ] && backup="--backup"
     [ -f ~/.envConf ] && [ "`head -n1 ~/.envConf`"="# zsh config file (version: ${VERSION})" ] && source ~/.envConf || mv -vi $backup  ~/.envConf ~/.envConf_`date +%F_%H%M%S`
@@ -64,23 +58,21 @@ function install_git {
 }
 
 function install_vim {
-    [ -L "${HOME}/.vim" ] && rm -v "${HOME}/.vim"
-    [ -f "${HOME}/.vimrc" ] && rm -v "${HOME}/.vimrc"
-    ln_os "${BASE_DIR}/vim" "${HOME}/.vim"
+    [ ! -d "${HOME}/.vim" ] && mkdir "${HOME}/.vim"
     if [[ $NOCONFIRM -eq 1 ]]; then
         VIM_TYPE="standard"
     else
         read -p "Select vimrc type (standard or develop). For standard just hit enter: " VIM_TYPE
     fi
     [ "${VIM_TYPE}" != "develop" ] && VIM_TYPE="standard"
-    ln_os "${BASE_DIR}/vim/vimrc_${VIM_TYPE}" "${BASE_DIR}/vim/vimrc"
+    rsync_os "${BASE_DIR}/vim/vimrc_${VIM_TYPE}" "${HOME}/.vim/vimrc"
 
     curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     local TMP_VIMRC=`mktemp`
     echo "set nocompatible" >$TMP_VIMRC
     echo "filetype off" >>$TMP_VIMRC
     echo "call plug#begin('~/.vim/bundle')" >>$TMP_VIMRC
-    grep "^Plug " "${BASE_DIR}/vim/vimrc" >>$TMP_VIMRC
+    grep "^Plug " "${HOME}/.vim/vimrc" >>$TMP_VIMRC
     echo "call plug#end()" >>$TMP_VIMRC
     vim -u "${TMP_VIMRC}" +PlugUpgrade +PlugInstall +PlugUpdate +qall
     rm -v $TMP_VIMRC
