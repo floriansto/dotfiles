@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="v0.1"
+VERSION="v0.2"
 BASE_DIR=$(dirname $0)
 cd "${BASE_DIR}"
 BASE_DIR="${PWD}"
@@ -23,26 +23,26 @@ function rsync_os {
 }
 
 function install_zsh {
-    cd "${HOME}"
-    [ ! -d ".oh-my-zsh" ] && git clone --recursive https://github.com/robbyrussell/oh-my-zsh .oh-my-zsh
-    cd ".oh-my-zsh"
+    OH_MY_ZSH="${HOME}/.oh-my-zsh"
+    [ ! -d "${OH_MY_ZSH}" ] && git clone --recursive https://github.com/robbyrussell/oh-my-zsh .oh-my-zsh "${OH_MY_ZSH}"
+    cd "${OH_MY_ZSH}"
     [ ! -d "custom/plugins" ] && mkdir -p "custom/plugins"
     cd "custom/plugins"
     [ ! -d "zsh-autosuggestions" ] && git clone https://github.com/zsh-users/zsh-autosuggestions.git
     cd "zsh-autosuggestions"
     git pull
-    cd "${HOME}/.oh-my-zsh"
+    cd "${OH_MY_ZSH}"
     git pull && git submodule update --init --recursive
     cd "${BASE_DIR}/zsh"
     rsync_os "zshrc" "${HOME}/.zshrc"
-    rsync_os "custom/" "${HOME}/.oh-my-zsh/custom"
+    rsync_os "custom/" "${OH_MY_ZSH}/custom"
     backup=""
     [ $OSTYPE != "linux-android" ] && backup="--backup"
     [ -f ~/.envConf ] && [ "`head -n1 ~/.envConf`"="# zsh config file (version: ${VERSION})" ] && source ~/.envConf || mv -vi $backup  ~/.envConf ~/.envConf_`date +%F_%H%M%S`
     #[ -z "$ZSH_THEME" ] && read -p "please enter the zsh theme you wanna use(to use 'mrpi' just hit enter): " ZSH_THEME
     [ -z "$ZSH_THEME" ] && ZSH_THEME="mrpi"
 
-    local ZSH_CUSTOM="${BASE_DIR}/zsh/custom"
+    local ZSH_CUSTOM="${OH_MY_ZSH}/custom"
     echo "# zsh config file (version: $VERSION)" >~/.envConf
     echo "export ZSH_CUSTOM=\"$ZSH_CUSTOM\"" >>~/.envConf
     echo "export ZSH_THEME=\"$ZSH_THEME\"" >>~/.envConf
