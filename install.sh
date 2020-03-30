@@ -24,7 +24,7 @@ function rsync_os {
 
 function install_zsh {
     OH_MY_ZSH="${HOME}/.oh-my-zsh"
-    [ ! -d "${OH_MY_ZSH}" ] && git clone --recursive https://github.com/robbyrussell/oh-my-zsh .oh-my-zsh "${OH_MY_ZSH}"
+    [ ! -d "${OH_MY_ZSH}" ] && git clone --recursive https://github.com/robbyrussell/oh-my-zsh "${OH_MY_ZSH}"
     cd "${OH_MY_ZSH}"
     [ ! -d "custom/plugins" ] && mkdir -p "custom/plugins"
     cd "custom/plugins"
