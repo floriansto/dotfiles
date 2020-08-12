@@ -43,11 +43,11 @@ function install_zsh {
     [ -z "$ZSH_THEME" ] && ZSH_THEME="mrpi"
 
     local ZSH_CUSTOM="${OH_MY_ZSH}/custom"
-    echo "# zsh config file (version: $VERSION)" >~/.envConf
-    echo "export ZSH_CUSTOM=\"$ZSH_CUSTOM\"" >>~/.envConf
-    echo "export ZSH_THEME=\"$ZSH_THEME\"" >>~/.envConf
-    echo "export ZSH_DISABLE_COMPFIX=\"true\"" >>~/.envConf
-    echo "export EDITOR=\"$(which vim)\"" >>~/.envConf
+    echo "# zsh config file (version: $VERSION)" >${HOME}/.envConf
+    echo "export ZSH_CUSTOM=\"$ZSH_CUSTOM\"" >>${HOME}/.envConf
+    echo "export ZSH_THEME=\"$ZSH_THEME\"" >>${HOME}/.envConf
+    echo "export ZSH_DISABLE_COMPFIX=\"true\"" >>${HOME}/.envConf
+    echo "export EDITOR=\"$(which vim)\"" >>${HOME}/.envConf
 
 }
 
@@ -67,17 +67,17 @@ function install_vim {
     [ "${VIM_TYPE}" != "develop" ] && VIM_TYPE="standard"
     rsync_os "${BASE_DIR}/vim/vimrc_${VIM_TYPE}" "${HOME}/.vim/vimrc"
 
-    curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     local TMP_VIMRC=`mktemp`
     echo "set nocompatible" >$TMP_VIMRC
     echo "filetype off" >>$TMP_VIMRC
-    echo "call plug#begin('~/.vim/bundle')" >>$TMP_VIMRC
+    echo "call plug#begin('${HOME}/.vim/bundle')" >>$TMP_VIMRC
     grep "^Plug " "${HOME}/.vim/vimrc" >>$TMP_VIMRC
     echo "call plug#end()" >>$TMP_VIMRC
     vim -u "${TMP_VIMRC}" +PlugUpgrade +PlugInstall +PlugUpdate +qall
     rm -v $TMP_VIMRC
-    if [[ ! -d ~/.vim/undodir ]]; then
-        mkdir ~/.vim/undodir
+    if [[ ! -d ${HOME}/.vim/undodir ]]; then
+        mkdir ${HOME}/.vim/undodir
     fi
 
 }
