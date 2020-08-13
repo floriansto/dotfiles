@@ -55,6 +55,7 @@ function install_git {
     git config --global user.email "florian.stockburger@web.de"
     git config --global user.name "Florian Stockburger"
     git config --global core.editor "vim"
+    git config --global credential.helper store
 }
 
 function install_vim {
