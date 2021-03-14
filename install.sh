@@ -107,6 +107,7 @@ function install_rofi {
 
 function install_libinput_gestures {
     cp libinput-gestures/libinput-gestures.conf ${HOME}/.config/libinput-gestures.conf
+    libinput-gestures-setup restart
 }
 
 function install_udev {
@@ -115,13 +116,14 @@ function install_udev {
 
 function install_acpi {
     sudo cp -r acpi/* /etc/acpi/
+    sudo systemctl restart acpid.service
 }
 
 function install_udevil {
     sudo cp udevil/udevil.conf /etc/udevil/udevil.conf
 }
 
-function install_udevil {
+function install_X11 {
     sudo cp X11/* /etc/X11/xorg.conf.d/
 }
 
