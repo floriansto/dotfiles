@@ -7,10 +7,8 @@ BASE_DIR="${PWD}"
 
 if [[ $1 == "noconfirm" ]]; then
     NOCONFIRM=1
-    INTERACTIVE_LN=""
 else
     NOCONFIRM=0
-    INTERACTIVE_LN="i"
 fi
 
 function log {
@@ -56,6 +54,7 @@ function install_git {
     git config --global user.name "Florian Stockburger"
     git config --global core.editor "vim"
     git config --global credential.helper store
+    git config --global pull.rebase true
 }
 
 function install_vim {
@@ -83,9 +82,59 @@ function install_vim {
 
 }
 
-for job in git zsh vim; do
+function install_redshift {
+    [ ! -d "${HOME}/.config/redshift/" ] && mkdir "${HOME}/.config/redshift"
+    cp redshift/redshift.conf ${HOME}/.config/redshift/redshift.conf
+    systemctl --user enable redshift.service
+    systemctl --user start redshift.service
+}
+
+function install_terminator {
+    [ ! -d "${HOME}/.config/terminator/" ] && mkdir "${HOME}/.config/terminator"
+    cp terminator/config ${HOME}/.config/terminator/config
+}
+
+function install_i3 {
+    [ ! -d "${HOME}/.config/i3/" ] && mkdir "${HOME}/.config/i3"
+    cp i3/config ${HOME}/.config/i3/
+    i3-msg restart
+}
+
+function install_rofi {
+    [ ! -d "${HOME}/.config/rofi/" ] && mkdir "${HOME}/.config/rofi"
+    cp rofi/config ${HOME}/.config/rofi/
+}
+
+function install_libinput_gestures {
+    cp libinput-gestures/libinput-gestures.conf ${HOME}/.config/libinput-gestures.conf
+}
+
+function install_udev {
+    sudo cp -r udev/* /etc/udev/
+}
+
+function install_acpi {
+    sudo cp -r acpi/* /etc/acpi/
+}
+
+function install_udevil {
+    sudo cp udevil/udevil.conf /etc/udevil/udevil.conf
+}
+
+function install_udevil {
+    sudo cp X11/* /etc/X11/xorg.conf.d/
+}
+
+for job in git zsh vim redshift terminator i3 libinput_gestures rofi; do
     log "installing configuration for '$job'"
     install_${job}
     cd "${BASE_DIR}"
 done
+
+for su_job in X11 acpi udev udevil; do
+    log "installing configuration for '$su_job'"
+    install_${su_job}
+    cd "${BASE_DIR}"
+done
+
 log "Finish"

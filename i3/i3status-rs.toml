@@ -1,0 +1,65 @@
+theme = "solarized-dark"
+icons = "awesome"
+
+[[block]]
+block = "pacman"
+interval = 600
+format = "{pacman} + {aur} = {both} updates available"
+format_singular = "{both} updates available"
+format_up_to_date = "system up to date"
+critical_updates_regex = "(linux)"
+aur_command = "yay -Syu"
+
+[[block]]
+block = "memory"
+display_type = "memory"
+format_mem = "{Mum}MB/{MTm}MB"
+#format_swap = "{SFm}%"
+icons = true
+clickable = false
+interval = 5
+
+[[block]]
+block = "cpu"
+format = "{utilization} {frequency}"
+interval = 1
+
+[[block]]
+block = "sound"
+format = "{volume}%"
+
+[[block]]
+block = "backlight"
+device = "intel_backlight"
+step_width = 5
+
+[[block]]
+block = "bluetooth"
+mac = "DC:2C:26:FA:A5:D9"
+label = "k8"
+
+[[block]]
+block = "battery"
+device = "BAT1"
+interval = 10
+format = "{percentage}% {time}"
+
+[[block]]
+block = "net"
+device = "eth0"
+format = "{ip} {speed_down}"
+interval = 5
+use_bits = false
+
+[[block]]
+block = "net"
+device = "wlp2s0"
+format = "{signal_strength} {ip}"
+#format_alt = "{ssid} {signal_strength} {ip} {speed_down}"
+interval = 5
+use_bits = false
+
+[[block]]
+block = "time"
+interval = 60
+format = "%a %d.%m %R"
