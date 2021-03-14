@@ -29,7 +29,7 @@ set $Locker ~/.config/i3/lock.sh && sleep 1
 # screen before suspend. Use loginctl lock-session to lock your screen.
 exec --no-startup-id xss-lock -- $lock
 
-exec_always xidlehook --not-when-fullscreen --timer 10 $lock '' --timer 300  'systemctl suspend' ''
+exec_always xidlehook --not-when-fullscreen --timer 60 $lock '' --timer 300  'systemctl suspend' ''
 
 bindsym $mod+l exec $lock
 
