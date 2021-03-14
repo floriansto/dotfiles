@@ -37,7 +37,7 @@ exec --no-startup-id libinput-gestures-setup start
 #exec --no-startup-id nm-applet
 
 # Spiral tiling (needs autotiling package from AUR)
-exec_always --no-startup-id autotiling
+#exec_always --no-startup-id autotiling
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
