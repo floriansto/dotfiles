@@ -1,5 +1,5 @@
 #!/bin/sh
-step=10
+step=5
 
 # for this to work you have to install the package acpilight
 case $1 in
