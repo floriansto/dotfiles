@@ -1,8 +1,0 @@
-#!/bin/sh
-step=5
-
-# for this to work you have to install the package acpilight
-case $1 in
-    -) /usr/bin/xbacklight -dec $step;;
-    +) /usr/bin/xbacklight -inc $step;;
-esac

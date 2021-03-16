@@ -1,2 +1,0 @@
-event=button/power
-action=/usr/bin/i3lock && sleep 1 && /usr/bin/systemctl suspend
