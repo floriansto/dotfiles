@@ -9,11 +9,11 @@ name = "awesome5"
 [[block]]
 block = "pacman"
 interval = 10
-format = "{pacman} + {aur} = {both} updates available"
+format= "{aur} updates available"
 #format_singular = "{both} updates available"
 format_up_to_date = "up to date"
 critical_updates_regex = "(linux)"
-aur_command = "n=$(yay -Qu | wc -l); if [[ $n -gt 0 ]]; then echo $n; fi"
+aur_command = "yay -Qu"
 
 [[block]]
 block = "music"
