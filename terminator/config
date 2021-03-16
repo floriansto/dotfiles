@@ -1,4 +1,18 @@
+[global_config]
+  inactive_color_offset = 1.0
+  title_use_system_font = False
+[keybindings]
+  help = ""
 [profiles]
   [[default]]
-    show_titlebar = false
-    borderless = true
+    cursor_color = "#aaaaaa"
+    show_titlebar = False
+[layouts]
+  [[default]]
+    [[[window0]]]
+      type = Window
+      parent = ""
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+[plugins]
