@@ -110,19 +110,9 @@ function install_libinput_gestures {
     libinput-gestures-setup restart
 }
 
-function install_udevil {
-    sudo cp udevil/udevil.conf /etc/udevil/udevil.conf
-}
-
 for job in git zsh vim redshift terminator i3 libinput_gestures rofi; do
     log "installing configuration for '$job'"
     install_${job}
-    cd "${BASE_DIR}"
-done
-
-for su_job in udevil; do
-    log "installing configuration for '$su_job'"
-    install_${su_job}
     cd "${BASE_DIR}"
 done
 
