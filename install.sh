@@ -55,6 +55,7 @@ function install_git {
     git config --global core.editor "vim"
     git config --global credential.helper store
     git config --global pull.rebase true
+    git config --global init.defaultBranch main
 }
 
 function install_vim {
