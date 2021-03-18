@@ -86,8 +86,6 @@ function install_vim {
 function install_redshift {
     [ ! -d "${HOME}/.config/redshift/" ] && mkdir "${HOME}/.config/redshift"
     cp redshift/redshift.conf ${HOME}/.config/redshift/redshift.conf
-    systemctl --user enable redshift.service
-    systemctl --user start redshift.service
 }
 
 function install_terminator {
