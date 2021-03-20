@@ -55,6 +55,7 @@ function install_git {
     git config --global core.editor "vim"
     git config --global credential.helper store
     git config --global pull.rebase true
+    git config --global init.defaultBranch main
 }
 
 function install_vim {
@@ -85,8 +86,6 @@ function install_vim {
 function install_redshift {
     [ ! -d "${HOME}/.config/redshift/" ] && mkdir -p "${HOME}/.config/redshift"
     cp redshift/redshift.conf ${HOME}/.config/redshift/redshift.conf
-    systemctl --user enable redshift.service
-    systemctl --user start redshift.service
 }
 
 function install_terminator {

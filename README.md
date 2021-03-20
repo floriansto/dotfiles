@@ -1,11 +1,6 @@
 # dotfiles
 Install configuration files for some programs on unix machines to simplify the setup.
 
-# Supported programs
-* git
-* vim
-* zsh
-
 # Installation
 ## Needed Packages
 ### Debian based systems
@@ -15,10 +10,6 @@ apt install wget git vim zsh curl
 ### Arch based systems
 ```sh
 pacman -S wget git vim zsh curl
-```
-## Get the source
-```git
-git clone https://gitea.flo-sto.de/flo/dotfiles.git 
 ```
 
 # Usage
