@@ -83,25 +83,25 @@ function install_vim {
 }
 
 function install_redshift {
-    [ ! -d "${HOME}/.config/redshift/" ] && mkdir "${HOME}/.config/redshift"
+    [ ! -d "${HOME}/.config/redshift/" ] && mkdir -p "${HOME}/.config/redshift"
     cp redshift/redshift.conf ${HOME}/.config/redshift/redshift.conf
     systemctl --user enable redshift.service
     systemctl --user start redshift.service
 }
 
 function install_terminator {
-    [ ! -d "${HOME}/.config/terminator/" ] && mkdir "${HOME}/.config/terminator"
+    [ ! -d "${HOME}/.config/terminator/" ] && mkdir -p "${HOME}/.config/terminator"
     cp terminator/config ${HOME}/.config/terminator/config
 }
 
 function install_i3 {
-    [ ! -d "${HOME}/.config/i3/" ] && mkdir "${HOME}/.config/i3"
+    [ ! -d "${HOME}/.config/i3/" ] && mkdir -p "${HOME}/.config/i3"
     cp i3/config ${HOME}/.config/i3/
     i3-msg restart
 }
 
 function install_rofi {
-    [ ! -d "${HOME}/.config/rofi/" ] && mkdir "${HOME}/.config/rofi"
+    [ ! -d "${HOME}/.config/rofi/" ] && mkdir -p "${HOME}/.config/rofi"
     cp rofi/config ${HOME}/.config/rofi/
 }
 
@@ -110,10 +110,22 @@ function install_libinput_gestures {
     libinput-gestures-setup restart
 }
 
-for job in git zsh vim redshift terminator i3 libinput_gestures rofi; do
+if [[ ! -d $HOME/.config ]]; then
+  mkdir $HOME/.config
+fi
+
+for job in git zsh vim; do
     log "installing configuration for '$job'"
     install_${job}
     cd "${BASE_DIR}"
 done
+
+if [[ $(whoami) != root ]]; then
+  for job in redshift terminator i3 libinput_gestures rofi; do
+      log "installing configuration for '$job'"
+      install_${job}
+      cd "${BASE_DIR}"
+  done
+fi
 
 log "Finish"
