@@ -95,7 +95,7 @@ function install_terminator {
 
 function install_i3 {
     [ ! -d "${HOME}/.config/i3/" ] && mkdir -p "${HOME}/.config/i3"
-    cp i3/config ${HOME}/.config/i3/
+    cp i3/* ${HOME}/.config/i3/
     i3-msg restart
 }
 
