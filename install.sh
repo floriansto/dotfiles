@@ -10,9 +10,9 @@ function usage() {
   echo "Usage $0 [options [parameters]]"
   echo ""
   echo "Options"
-  echo " -v,--vim              [standard|develop] Option for vim config"
-  echo " -e,--exclude-i3-block [block] Exclude a block from i3status (for blocks see"
-  echo "                       the files in the i3 folder"
+  echo " -v,--vim              [standard|develop] Option for vim config, default: standard"
+  echo " -e,--exclude-i3-block [block] Exclude a block from i3status (block names"
+  echo "                       are filenames from i3/blocks/ folder without extension)"
   echo " -h,--help             Print this help"
 }
 
@@ -48,29 +48,6 @@ function get_i3_blocks() {
     fi
   done
 }
-
-vim="standard"
-exclude_i3=()
-include_i3=()
-while [[ ! -z "$1" ]]; do
-  if [[ "$1" == "-h" || "$1" == "--help" ]]; then
-    usage
-  elif [[ "$1" == "-v" || "$1" == "--vim" ]]; then
-    vim="$2"
-    shift
-  elif [[ "$1" == "-e" || "$1" == "--exclude-i3-block" ]]; then
-    exclude_i3+=($2)
-    shift
-  else
-    echo "Unknown option $1"
-    usage
-    exit 1
-  fi
-  shift
-done
-check_vim
-check_i3
-get_i3_blocks
 
 function log {
     printf '\e[1;33m%*s\e[0m' "$COLUMNS" '' | tr ' ' -
@@ -174,6 +151,36 @@ function install_rofi {
 function install_libinput_gestures {
     cp libinput-gestures/libinput-gestures.conf ${HOME}/.config/libinput-gestures.conf
 }
+
+vim="standard"
+vim_opt=0
+exclude_i3=()
+include_i3=()
+while [[ ! -z "$1" ]]; do
+  if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+    usage
+  elif [[ "$1" == "-v" || "$1" == "--vim" ]]; then
+    if [[ ${vim_opt} -gt 0 ]]; then
+      echo "The -v,--vim option is only allowed once"
+      usage
+      exit 1
+    fi
+    vim="$2"
+    vim_opt=1
+    shift
+  elif [[ "$1" == "-e" || "$1" == "--exclude-i3-block" ]]; then
+    exclude_i3+=($2)
+    shift
+  else
+    echo "Unknown option $1"
+    usage
+    exit 1
+  fi
+  shift
+done
+check_vim
+check_i3
+get_i3_blocks
 
 if [[ ! -d $HOME/.config ]]; then
   mkdir $HOME/.config
