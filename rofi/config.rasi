@@ -1,0 +1,7 @@
+configuration {
+	theme: "/usr/share/rofi/themes/android_notification.rasi";
+  modi: "window,drun,ssh,combi";
+  show-icons: true;
+  combi-modi: "drun";
+  terminal: "terminator";
+}
