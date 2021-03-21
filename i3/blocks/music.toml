@@ -1,0 +1,9 @@
+[[block]]
+block = "music"
+player = "spotify"
+buttons = ["play", "next"]
+on_collapsed_click = "spotify"
+marquee = true
+marquee_interval = 2
+marquee_speed = 0.6
+dynamic_width = true

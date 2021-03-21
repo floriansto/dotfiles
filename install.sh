@@ -4,12 +4,73 @@ VERSION="v0.2"
 BASE_DIR=$(dirname $0)
 cd "${BASE_DIR}"
 BASE_DIR="${PWD}"
+I3_BLOCKS="i3/blocks"
 
-if [[ $1 == "noconfirm" ]]; then
-    NOCONFIRM=1
-else
-    NOCONFIRM=0
-fi
+function usage() {
+  echo "Usage $0 [options [parameters]]"
+  echo ""
+  echo "Options"
+  echo " -v,--vim              [standard|develop] Option for vim config"
+  echo " -e,--exclude-i3-block [block] Exclude a block from i3status (for blocks see"
+  echo "                       the files in the i3 folder"
+  echo " -h,--help             Print this help"
+}
+
+function check_vim() {
+  if [[ "${vim}" != "standard" && "${vim}" != "develop" ]]; then
+    echo "Unknown parameter \"${vim}\" for the -v or --vim option"
+    echo "Allowed values: standard, develop"
+    exit 1
+  fi
+}
+
+function check_i3() {
+  errorlist=()
+  haserrors=0
+  for i in ${exclude_i3[@]}; do
+    if [[ ! -f "${I3_BLOCKS}/${i}.toml" ]]; then
+      errorlist+=("${I3_BLOCKS}/${i}.toml")
+      haserrors=1
+    fi
+  done
+  if [[ ${haserrors} -eq 1 ]]; then
+    echo "The following blocks cannot be found:"
+    echo " ${errorlist[@]}"
+    exit 1
+  fi
+}
+
+function get_i3_blocks() {
+  for i in $(ls ${I3_BLOCKS}/*.toml); do
+    f=$(basename ${i} .toml)
+    if [[ ! "${exclude_i3[@]}" =~ "${f}" ]];then
+      include_i3+=(${f})
+    fi
+  done
+}
+
+vim="standard"
+exclude_i3=()
+include_i3=()
+while [[ ! -z "$1" ]]; do
+  if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+    usage
+  elif [[ "$1" == "-v" || "$1" == "--vim" ]]; then
+    vim="$2"
+    shift
+  elif [[ "$1" == "-e" || "$1" == "--exclude-i3-block" ]]; then
+    exclude_i3+=($2)
+    shift
+  else
+    echo "Unknown option $1"
+    usage
+    exit 1
+  fi
+  shift
+done
+check_vim
+check_i3
+get_i3_blocks
 
 function log {
     printf '\e[1;33m%*s\e[0m' "$COLUMNS" '' | tr ' ' -
@@ -60,13 +121,7 @@ function install_git {
 
 function install_vim {
     [ ! -d "${HOME}/.vim" ] && mkdir "${HOME}/.vim"
-    if [[ $NOCONFIRM -eq 1 ]]; then
-        VIM_TYPE="standard"
-    else
-        read -p "Select vimrc type (standard or develop). For standard just hit enter: " VIM_TYPE
-    fi
-    [ "${VIM_TYPE}" != "develop" ] && VIM_TYPE="standard"
-    rsync_os "${BASE_DIR}/vim/vimrc_${VIM_TYPE}" "${HOME}/.vim/vimrc"
+    rsync_os "${BASE_DIR}/vim/vimrc_${vim}" "${HOME}/.vim/vimrc"
 
     curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     local TMP_VIMRC=`mktemp`
@@ -80,7 +135,6 @@ function install_vim {
     if [[ ! -d ${HOME}/.vim/undodir ]]; then
         mkdir ${HOME}/.vim/undodir
     fi
-
 }
 
 function install_redshift {
@@ -95,20 +149,30 @@ function install_terminator {
 
 function install_i3 {
     [ ! -d "${HOME}/.config/i3/" ] && mkdir -p "${HOME}/.config/i3"
-    cp i3/* ${HOME}/.config/i3/
+    cp -r i3/* ${HOME}/.config/i3/
     [ ! -d "${HOME}/.config/dunst" ] && mkdir -p "${HOME}/.config/dunst"
     cp dunst/dunstrc ${HOME}/.config/dunst/dunstrc
-    i3-msg restart
+
+    include_i3_ordered=()
+    status_order=$(cat i3/i3status-order.conf)
+    for i in ${status_order[@]}; do
+      if [[ "${include_i3[@]}" =~ "${i}" ]];then
+        cat "${I3_BLOCKS}/${i}.toml" >> "${HOME}/.config/i3/i3status-rs.toml"
+        include_i3_ordered+=(${i})
+      fi
+    done
+    echo "Included i3status-rs blocks:"
+    echo "${include_i3_ordered[@]}"
+    i3-msg restart > /dev/null
 }
 
 function install_rofi {
     [ ! -d "${HOME}/.config/rofi/" ] && mkdir -p "${HOME}/.config/rofi"
-    cp rofi/config ${HOME}/.config/rofi/
+    cp rofi/config.rasi ${HOME}/.config/rofi/
 }
 
 function install_libinput_gestures {
     cp libinput-gestures/libinput-gestures.conf ${HOME}/.config/libinput-gestures.conf
-    libinput-gestures-setup restart
 }
 
 if [[ ! -d $HOME/.config ]]; then
