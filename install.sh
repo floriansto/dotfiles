@@ -96,6 +96,8 @@ function install_terminator {
 function install_i3 {
     [ ! -d "${HOME}/.config/i3/" ] && mkdir -p "${HOME}/.config/i3"
     cp i3/* ${HOME}/.config/i3/
+    [ ! -d "${HOME}/.config/dunst" ] && mkdir -p "${HOME}/.config/dunst"
+    cp dunst/dunstrc ${HOME}/.config/dunst/dunstrc
     i3-msg restart
 }
 
