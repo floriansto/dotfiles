@@ -13,6 +13,9 @@ function usage() {
   echo " -v,--vim              [standard|develop] Option for vim config, default: standard"
   echo " -e,--exclude-i3-block [block] Exclude a block from i3status (block names"
   echo "                       are filenames from i3/blocks/ folder without extension)"
+  echo " -de,--device-eth      [dev] Ethernet device (used for i3status)"
+  echo " -dw,--device-wifi     [dev] WiFi device (used for i3status)"
+  echo " -g,--graphical        Whether dotfiles for a graphical environment should be installed"
   echo " -h,--help             Print this help"
 }
 
@@ -47,6 +50,13 @@ function get_i3_blocks() {
       include_i3+=(${f})
     fi
   done
+}
+
+function net_error() {
+  devs=$(ls /sys/class/net | tr '\n' ' ')
+  echo "Unknown device $1"
+  echo "Allowed devices: ${devs[@]}"
+  exit 1
 }
 
 function log {
@@ -134,7 +144,20 @@ function install_i3 {
     status_order=$(cat i3/i3status-order.conf)
     for i in ${status_order[@]}; do
       if [[ "${include_i3[@]}" =~ "${i}" ]];then
-        cat "${I3_BLOCKS}/${i}.toml" >> "${HOME}/.config/i3/i3status-rs.toml"
+        f="${I3_BLOCKS}/${i}.toml"
+        if [[ "${i}" == "net_eth" || "${i}" == "net_wifi" ]];then
+          if [[ "${i}" == "net_eth" && ${dev_eth} != "" ]]; then
+            out=$(cat ${f} | sed "s/%DEVICE%/${dev_eth}/")
+          elif [[ "${i}" == "net_wifi" && ${dev_wifi} != "" ]]; then
+            out=$(cat ${f} | sed "s/%DEVICE%/${dev_wifi}/")
+          else
+            out=""
+          fi
+        else
+          out=$(cat ${f})
+        fi
+        echo "${out}" >> "${HOME}/.config/i3/i3status-rs.toml"
+        echo "" >> "${HOME}/.config/i3/i3status-rs.toml"
         include_i3_ordered+=(${i})
       fi
     done
@@ -156,9 +179,13 @@ vim="standard"
 vim_opt=0
 exclude_i3=()
 include_i3=()
+dev_eth=""
+dev_wifi=""
+graphical=0
 while [[ ! -z "$1" ]]; do
   if [[ "$1" == "-h" || "$1" == "--help" ]]; then
     usage
+    exit 0
   elif [[ "$1" == "-v" || "$1" == "--vim" ]]; then
     if [[ ${vim_opt} -gt 0 ]]; then
       echo "The -v,--vim option is only allowed once"
@@ -170,6 +197,21 @@ while [[ ! -z "$1" ]]; do
     shift
   elif [[ "$1" == "-e" || "$1" == "--exclude-i3-block" ]]; then
     exclude_i3+=($2)
+    shift
+  elif [[ "$1" == "-de" || "$1" == "--device-eth" ]]; then
+    dev_eth="$2"
+    if [[ ! -e /sys/class/net/${dev_eth} ]]; then
+      net_error ${dev_eth}
+    fi
+    shift
+  elif [[ "$1" == "-dw" || "$1" == "--device-wifi" ]]; then
+    dev_wifi="$2"
+    if [[ ! -e /sys/class/net/${dev_wifi} ]]; then
+      net_error ${dev_wifi}
+    fi
+    shift
+  elif [[ "$1" == "-g" || "$1" == "--graphical" ]]; then
+    graphical=1
     shift
   else
     echo "Unknown option $1"
@@ -192,7 +234,7 @@ for job in git zsh vim; do
     cd "${BASE_DIR}"
 done
 
-if [[ $(whoami) != root ]]; then
+if [[ ${graphical} -gt 0 ]]; then
   for job in redshift terminator i3 libinput_gestures rofi; do
       log "installing configuration for '$job'"
       install_${job}
