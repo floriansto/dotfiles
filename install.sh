@@ -64,10 +64,6 @@ function log {
     printf '\r\e[1;33m-- \e[1;32m%s \e[0m\n' "$*"
 }
 
-function rsync_os {
-    rsync -a $1 $2
-}
-
 function install_zsh {
     OH_MY_ZSH="${HOME}/.oh-my-zsh"
     [ ! -d "${OH_MY_ZSH}" ] && git clone --recursive https://github.com/robbyrussell/oh-my-zsh "${OH_MY_ZSH}"
@@ -80,8 +76,8 @@ function install_zsh {
     cd "${OH_MY_ZSH}"
     git pull && git submodule update --init --recursive
     cd "${BASE_DIR}/zsh"
-    rsync_os "zshrc" "${HOME}/.zshrc"
-    rsync_os "custom/" "${OH_MY_ZSH}/custom"
+    cp "zshrc" "${HOME}/.zshrc"
+    cp -r "custom/" "${OH_MY_ZSH}/custom"
     backup=""
     [ $OSTYPE != "linux-android" ] && backup="--backup"
     [ -f ~/.envConf ] && [ "`head -n1 ~/.envConf`"="# zsh config file (version: ${VERSION})" ] && source ~/.envConf || mv -vi $backup  ~/.envConf ~/.envConf_`date +%F_%H%M%S`
@@ -108,7 +104,7 @@ function install_git {
 
 function install_vim {
     [ ! -d "${HOME}/.vim" ] && mkdir "${HOME}/.vim"
-    rsync_os "${BASE_DIR}/vim/vimrc_${vim}" "${HOME}/.vim/vimrc"
+    cp "${BASE_DIR}/vim/vimrc_${vim}" "${HOME}/.vim/vimrc"
 
     curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     local TMP_VIMRC=`mktemp`
@@ -163,7 +159,6 @@ function install_i3 {
     done
     echo "Included i3status-rs blocks:"
     echo "${include_i3_ordered[@]}"
-    i3-msg restart > /dev/null
 }
 
 function install_rofi {
