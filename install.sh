@@ -64,6 +64,13 @@ function log {
     printf '\r\e[1;33m-- \e[1;32m%s \e[0m\n' "$*"
 }
 
+function install_gtk3() {
+  if [[ ! -d "${HOME}/.config/gtk-3.0" ]]; then
+    mkdir "${HOME}/.config/gtk-3.0"
+  fi
+  cp gtk3/settings.ini "${HOME}/.config/gtk-3.0/settings.ini"
+}
+
 function install_zsh {
     OH_MY_ZSH="${HOME}/.oh-my-zsh"
     [ ! -d "${OH_MY_ZSH}" ] && git clone --recursive https://github.com/robbyrussell/oh-my-zsh "${OH_MY_ZSH}"
@@ -230,7 +237,7 @@ for job in git zsh vim; do
 done
 
 if [[ ${graphical} -gt 0 ]]; then
-  for job in redshift terminator i3 libinput_gestures rofi; do
+  for job in redshift terminator i3 libinput_gestures rofi gtk3; do
       log "installing configuration for '$job'"
       install_${job}
       cd "${BASE_DIR}"
