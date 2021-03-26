@@ -214,7 +214,6 @@ while [[ ! -z "$1" ]]; do
     shift
   elif [[ "$1" == "-g" || "$1" == "--graphical" ]]; then
     graphical=1
-    shift
   else
     echo "Unknown option $1"
     usage
