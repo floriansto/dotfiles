@@ -6,6 +6,7 @@ The following packages are needed
 ```sh
 git vim curl
 ```
+To get new wallpapers based on the bing image of the day you need to clone the repository (https://github.com/markasoftware/bing-wallpaper-linux.git)[https://github.com/markasoftware/bing-wallpaper-linux.git] to your `/opt` directory.
 
 # Usage
 Run
