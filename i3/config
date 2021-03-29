@@ -39,6 +39,9 @@ exec --no-startup-id redshift
 # Start libinput-gestures
 exec_always --no-startup-id libinput-gestures-setup start
 
+# Get new wallpaper
+exec_always --no-startup-id /opt/bing-wallpaper-linux/get-wallpaper.sh
+
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 #exec --no-startup-id nm-applet
