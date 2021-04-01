@@ -1,8 +1,8 @@
 [[block]]
 block = "pacman"
 interval = 10
-format= "{aur} updates available"
-format_singular = "{aur} update available"
+format= "{both} updates available"
+format_singular = "{both} update available"
 format_up_to_date = "up to date"
 critical_updates_regex = "(linux)"
 aur_command = "yay -Qu"
