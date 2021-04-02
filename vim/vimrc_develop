@@ -16,10 +16,11 @@ Plug 'vim-syntastic/syntastic'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'ntpeters/vim-better-whitespace'
-Plug 'Valloric/YouCompleteMe', {'for': 'cpp'}
 Plug 'lervag/vimtex'
 Plug 'leafgarland/typescript-vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
+Plug 'preservim/tagbar'
+Plug 'rust-lang/rust.vim'
 
 call plug#end()
 filetype plugin indent on
@@ -58,6 +59,9 @@ nmap tt <C-w><C-w>
 "F7 toggles NERDTree
 nmap <F7> :NERDTreeToggle<CR>
 
+"F8 toggles tagbar
+nmap <F8> :TagbarToggle<CR>
+
 set statusline=%t
 set statusline+=[%{strlen(&fenc)?&fenc:'none'}, "file encoding
 set statusline+=%{&ff}] "file format
@@ -84,7 +88,6 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_cpp_compiler = 'g++'
 let g:syntastic_cpp_compiler_options ='-std=c++11'
 let g:syntastic_cpp_check_header = 0
-let g:syntastic_cpp_include_dirs = ['/home/flo/Development/robotics15/src']
 "let g:syntastic_quiet_messages = { "regex": ['missing `\ ', 'Use ` to begin quotation'] }
 let g:syntastic_ignore_files = ['\m^/images/', '\m\c\.pdf_tex$', '\m\c\.tex$']
 
