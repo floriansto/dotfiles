@@ -109,7 +109,7 @@ alias ls='ls --color=auto -h --group-directories-first'
 alias ll='ls -l'
 alias hh='history | grep $1'
 alias ..='cd ..'
-alias kyb='cd "/home/flo/Dokumente/Studium/02 - TechKyb - M.Sc"'
+alias cat='bat'
 
 # vte configuration
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
