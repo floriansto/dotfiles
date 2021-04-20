@@ -40,3 +40,10 @@ Quotes:VolumeMute
 Comma:MediaPrevious
 Period:MediaNext
 Slash:MediaPlayPause
+
+
+# Lighting
+[Lighting(Rainbow Waves,Base)]
+[Lighting(static_blue_num_red,Base)]
+[Lighting(static_green_num_bright,Base)]
+
