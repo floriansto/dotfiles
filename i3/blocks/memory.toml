@@ -1,8 +1,7 @@
 [[block]]
 block = "memory"
 display_type = "memory"
-format_mem = "{Mum}MB/{MTm}MB"
-#format_swap = "{SFm}%"
+format_mem = "{mem_used}MB/{mem_total}MB"
 icons = true
 clickable = false
 interval = 5
