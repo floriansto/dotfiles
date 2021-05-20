@@ -1,7 +1,7 @@
 [[block]]
 block = "memory"
 display_type = "memory"
-format_mem = "{mem_used}MB/{mem_total}MB"
+format_mem = "{mem_used}/{mem_total}"
 icons = true
 clickable = false
 interval = 5
