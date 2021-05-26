@@ -40,6 +40,12 @@ exec --no-startup-id redshift
 # Start libinput-gestures
 exec_always --no-startup-id libinput-gestures-setup start
 
+# Start nextcloud
+exec_always --no-startup-id nextcloud
+
+# Start kdeconnect
+exec_always --no-startup-id kdeconnect-indicator
+
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 #exec --no-startup-id nm-applet
