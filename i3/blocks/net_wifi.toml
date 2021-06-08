@@ -1,7 +1,7 @@
 [[block]]
 block = "net"
 device = "%DEVICE%"
-format = "{signal_strength} {ip}"
+format = "{ip}"
 #format_alt = "{ssid} {signal_strength} {ip} {speed_down}"
 interval = 5
 hide_inactive = true
