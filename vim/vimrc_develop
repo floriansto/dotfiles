@@ -8,6 +8,7 @@ call plug#begin('~/.vim/bundle')
 
 Plug 'sjl/gundo.vim'
 Plug 'altercation/vim-colors-solarized'
+Plug 'arcticicestudio/nord-vim'
 Plug 'chrisbra/Recover.vim'
 Plug 'davidhalter/jedi-vim', {'for': 'python'}
 Plug 'ervandew/supertab'
@@ -33,7 +34,7 @@ set t_ut=
 let g:solarized_termcolors=256
 let g:solarized_contrast="high"
 let g:solarized_visibility="high"
-colorscheme solarized
+colorscheme nord
 set autoread
 set encoding=utf-8
 set mouse=a

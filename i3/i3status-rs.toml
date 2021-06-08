@@ -1,7 +1,5 @@
 [theme]
-name = "bad-wolf"
-[theme.overrides]
-separator = ""
+name = "nord-dark"
 
 [icons]
 name = "awesome5"

@@ -287,18 +287,53 @@ bindsym $mod+i mode "$mode_keyboard"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
+set $base00 #101218
+set $base01 #1f222d
+set $base02 #252936
+set $base03 #5e81ac
+set $base04 #C0C5CE
+set $base05 #d1d4e0
+set $base06 #C9CCDB
+set $base07 #ffffff
+set $base08 #ee829f
+set $base09 #f99170
+set $base0A #ffefcc
+set $base0B #a5ffe1
+set $base0C #97e0ff
+set $base0D #97bbf7
+set $base0E #c0b7f9
+set $base0F #fcc09e
+
 bar {
     #status_command i3status
     font pango:DejaVu Sans Mono, FontAwesome 10
     position top
     status_command i3status-rs ${HOME}/.config/i3/i3status-rs.toml
     colors {
-     separator #666666
-     background #222222
-     statusline #dddddd
-     focused_workspace #0088CC #0088CC #ffffff
-     active_workspace #333333 #333333 #ffffff
-     inactive_workspace #333333 #333333 #888888
-     urgent_workspace #2f343a #900000 #ffffff
+        separator  $base01
+        background $base01
+        statusline #81a1c1
+
+        #                   border  background text
+        focused_workspace  $base01 $base01    #81a1c1
+        active_workspace   $base01 $base02    $base03
+        inactive_workspace $base01 $base01    #4c566a
+        urgent_workspace   $base01 $base01    $base08
+        binding_mode       $base01 #81a1c1    #2e3440
     }
 }
+
+##START THEMING WM
+#Theme name : ArcoLinux Mastermind
+
+# Window color settings
+# class                 border  backgr. text    indicator
+client.focused          $base03 $base03 #ffffff #81a1c1
+client.unfocused        #2e3440 #2e3440 #81a1c1 #2e3440
+client.focused_inactive #2e3440 #2e3440 #81a1c1 #2e3440
+client.placeholder      #2e3440 #2e3440 #81a1c1 #2e3440
+client.urgent           #900000 #900000 #ffffff #900000
+
+client.background       #242424
+
+##STOP THEMING WM
