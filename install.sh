@@ -137,6 +137,11 @@ function install_terminator {
     cp terminator/config ${HOME}/.config/terminator/config
 }
 
+function install_sway {
+    [ ! -d "${HOME}/.config/sway/" ] && mkdir -p "${HOME}/.config/sway"
+    cp -r i3/* ${HOME}/.config/sway/
+}
+
 function install_i3 {
     [ ! -d "${HOME}/.config/i3/" ] && mkdir -p "${HOME}/.config/i3"
     cp -r i3/* ${HOME}/.config/i3/
@@ -175,6 +180,16 @@ function install_rofi {
 
 function install_libinput_gestures {
     cp libinput-gestures/libinput-gestures.conf ${HOME}/.config/libinput-gestures.conf
+}
+
+function install_systemd_user {
+    [ ! -d "${HOME}/.config/systemd/user/" ] && mkdir -p "${HOME}/.config/systemd/user/"
+    cp -r .config/systemd_user/* ${HOME}/.config/systemd/user/
+    systemctl --user daemon-reload
+    for f in "${HOME}/.config/systemd/user/*.service"; do
+      systemctl --user start f
+      systemctl --user enable f
+    done
 }
 
 vim="standard"
@@ -236,7 +251,7 @@ for job in git zsh vim; do
 done
 
 if [[ ${graphical} -gt 0 ]]; then
-  for job in redshift terminator i3 libinput_gestures rofi gtk3; do
+  for job in redshift terminator i3 libinput_gestures rofi gtk3 sway systemd_user; do
       log "installing configuration for '$job'"
       install_${job}
       cd "${BASE_DIR}"
