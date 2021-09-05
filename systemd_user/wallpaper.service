@@ -3,14 +3,15 @@ Description=Get new bing wallpaper after login and network connection
 After=network.target
 After=systemd-user-sessions.service
 After=network-online.target
+After=graphical-session.target
 
 [Service]
 ExecStart=%h/.config/sway/scripts/bing_wallpaper.sh
+Type=oneshot
+RemainAfterExit=yes
 Restart=on-failure
 RestartSec=10
-Type=oneshot
-RemainAfterExit=no
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
 
