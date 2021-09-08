@@ -183,6 +183,11 @@ function install_wofi {
     cp -r wofi/* ${HOME}/.config/wofi/
 }
 
+function install_alacritty {
+    [ ! -d "${HOME}/.config/alacritty/" ] && mkdir -p "${HOME}/.config/alacritty"
+    cp -r alacritty/* ${HOME}/.config/alacritty/
+}
+
 function install_libinput_gestures {
     cp libinput-gestures/libinput-gestures.conf ${HOME}/.config/libinput-gestures.conf
 }
@@ -257,7 +262,7 @@ for job in git zsh vim; do
 done
 
 if [[ ${graphical} -gt 0 ]]; then
-  for job in redshift terminator i3 libinput_gestures rofi wofi gtk3 sway systemd_user; do
+  for job in redshift alacritty terminator i3 libinput_gestures rofi wofi gtk3 sway systemd_user; do
       log "installing configuration for '$job'"
       install_${job}
       cd "${BASE_DIR}"
