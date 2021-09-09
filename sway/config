@@ -2,7 +2,7 @@
 input * xkb_layout "us"
 input * xkb_variant "altgr-intl"
 
-gaps inner 10
+gaps inner 6
 
 set $mod Mod4
 
@@ -10,26 +10,32 @@ set $mod Mod4
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 font pango:DejaVu Sans Mono 8
 
-set $lock ~/.config/i3/lock.sh
-set $Locker ~/.config/i3/lock.sh && sleep 1
+set $lock ~/.config/sway/lock.sh
+set $Locker ~/.config/sway/lock.sh && sleep 1
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
 
-# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
-# screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock -- $lock
+# Inhibit Idle if a window is fullscreen or audio is playing
+for_window [app_id="^.*"] inhibit_idle fullscreen
+for_window [class="^.*"] inhibit_idle fullscreen
+exec sway-audio-idle-inhibit
 
-exec_always xidlehook --not-when-audio --not-when-fullscreen --timer 600 $lock '' --timer 1200  'systemctl suspend' ''
-
-# Set screen layout and wallpaper
-exec_always --no-startup-id /home/flo/.screenlayout/desktop.sh && /opt/bing-wallpaper-linux/get-wallpaper.sh
+# Lock screen an suspend
+exec swayidle -w \
+  timeout 300 $lock \
+  timeout 600 'swaymsg "output * dpms off"' \
+      resume 'swaymst "output * dpms on"' \
+  before-sleep $lock
 
 # Start redshift
 exec --no-startup-id redshift -m wayland
 
 # Start libinput-gestures
 exec_always --no-startup-id libinput-gestures-setup start
+
+# Get new bing wallpaper
+exec_always --no-startup-id systemctl --user restart wallpaper.service
 
 # Start nextcloud
 #exec_always --no-startup-id nextcloud
@@ -79,7 +85,7 @@ bindsym $mod+Return exec alacritty
 bindsym $mod+Shift+q kill
 
 # Start the menu
-bindsym $mod+d exec "wofi --show drun"
+bindsym $mod+d exec "wofi"
 
 # change focus
 bindsym $mod+$left focus left

@@ -1,55 +1,53 @@
-/* ::root{ */
-/*     --accent: #5291e2; */
-/*     --dark: #383C4A; */
-/*     --light: #7C818C; */
-/*     --ld: #404552; */
-/*     --dl: #4B5162 */
-/*     --white: white; */
-/* } */
-
-*{
-    font-family: monospace;
-}
-
 window {
-    background-color: #7C818C;
+    margin: 5px;
+    border: 2px solid gray;
+    background-color: rgba(44,62,80,0.8);
+    /* background: transparent; */
+    /* background: transparent; */
 }
 
 #input {
     margin: 5px;
-    border-radius: 0px;
-    border: none;
-    border-bottom: 3px solid black;
-    background-color: #383C4A;
+    background: transparent;
     color: white;
+    /* border: 2px solid blue; */
+    /* background-color: blue; */
 }
 
 #inner-box {
-    background-color: #383C4A;
-
+    margin: 5px;
+    /* border: 2px solid yellow; */
+    /* background-color: yellow; */
 }
 
 #outer-box {
     margin: 5px;
-    padding:20px;
-    background-color: #383C4A;
+    /* border: 2px solid green; */
+    border: 2px transparent;
+    /* background-color: green; */
 }
 
 #scroll {
+    margin: 5px;
+    /* border: 2px solid orange; */
+    /* background-color: orange; */
 }
 
 #text {
-padding: 5px;
-color: white;
-}
-
-#entry:nth-child(even){
-    background-color: #404552;
+    margin: 5px;
+    color: white;
+    /* border: 2px solid cyan; */
+    /* background-color: cyan; */
 }
 
 #entry:selected {
-    background-color: #5291e2;
+    background-color: rgba(0,0,0,0);
+    /* text-decoration: underline; */
+    /* text-decoration-color: white; */
 }
 
 #text:selected {
+     /* background-color: red; */
+    /*text-decoration: underline;*/
+    text-decoration-color: white;
 }

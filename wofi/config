@@ -1,0 +1,6 @@
+show_all=true
+allow_images=true
+image_size=15px
+show=drun
+term=alacritty
+no_actions=true
