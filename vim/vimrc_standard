@@ -15,6 +15,8 @@ Plug 'godlygeek/tabular'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 call plug#end()
 filetype plugin indent on
@@ -38,7 +40,6 @@ map <S-U> :GundoToggle<CR>
 let g:gundo_right = 1
 
 "tab management
-set showtabline=2
 nmap tc :tabnew<CR>
 nmap tn :tabnext<CR>
 nmap tf :tabfirst<CR>
@@ -53,17 +54,7 @@ nmap tt <C-w><C-w>
 "F7 toggles NERDTree
 nmap <F7> :NERDTreeToggle<CR>
 
-set statusline=%t
-set statusline+=[%{strlen(&fenc)?&fenc:'none'}, "file encoding
-set statusline+=%{&ff}] "file format
-set statusline+=%h      "help file flag
-set statusline+=%m      "modified flag
-set statusline+=%r      "read only flag
-set statusline+=%y      "filetype
-set statusline+=%=      "left/right separator
-set statusline+=%c,     "cursor column
-set statusline+=%l/%L   "cursor line/total lines
-set statusline+=\ %P    "percent through file
+let g:airline#extensions#tabline#enabled = 1
 
 let g:NERDTreeQuitOnOpen = 1
 
