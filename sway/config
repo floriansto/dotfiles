@@ -1,6 +1,10 @@
 # US-Intl keyboard layout
 input * xkb_layout "us"
 input * xkb_variant "altgr-intl"
+input "9610:8209:Glorious_Model_O_Wireless" {
+  accel_profile "flat"
+  pointer_accel "-0.6"
+}
 
 gaps inner 6
 
@@ -38,7 +42,7 @@ exec_always --no-startup-id libinput-gestures-setup start
 exec_always --no-startup-id systemctl --user restart wallpaper.service
 
 # Start nextcloud
-#exec_always --no-startup-id nextcloud
+exec_always --no-startup-id nextcloud
 
 # Start kdeconnect
 exec_always --no-startup-id /usr/lib/kdeconnectd
@@ -301,7 +305,7 @@ bar {
     #status_command i3status
     font pango:DejaVu Sans Mono, FontAwesome 9
     position top
-    status_command i3status-rs ${HOME}/.config/i3/i3status-rs.toml
+    status_command i3status-rs ${HOME}/.config/sway/i3status-rs.toml
     colors {
         separator  $base01
         background $base01
@@ -331,7 +335,6 @@ client.background       #242424
 
 ##STOP THEMING WM
 
-output HDMI-A-2 pos 0 0 res 1920x1200
-output DP-2 pos 1920 0 res 1920x1080
+output DP-2 scale 1.4
 output HDMI-A-1 disable
 #output HDMI-A-1 pos 3840 0 res 3840x2160

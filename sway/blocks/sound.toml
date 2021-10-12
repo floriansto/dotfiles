@@ -1,0 +1,4 @@
+[[block]]
+block = "sound"
+format = "{volume}"
+on_click = "i3-sensible-terminal -e pulsemixer"

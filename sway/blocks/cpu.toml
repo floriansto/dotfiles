@@ -1,0 +1,4 @@
+[[block]]
+block = "cpu"
+format = "{utilization} {frequency}"
+interval = 1

@@ -1,0 +1,4 @@
+[[block]]
+block = "backlight"
+device = "intel_backlight"
+step_width = 5

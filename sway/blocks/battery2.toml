@@ -1,0 +1,8 @@
+[[block]]
+block = "battery"
+device = "BAT2"
+interval = 10
+format = "{percentage}% {time}"
+missing_format = ""
+allow_missing = true
+hide_missing = true

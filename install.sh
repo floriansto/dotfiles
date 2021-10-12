@@ -31,8 +31,8 @@ function check_i3() {
   errorlist=()
   haserrors=0
   for i in ${exclude_i3[@]}; do
-    if [[ ! -f "${I3_BLOCKS}/${i}.toml" ]]; then
-      errorlist+=("${I3_BLOCKS}/${i}.toml")
+    if [[ ! -f "$1/blocks/${i}.toml" ]]; then
+      errorlist+=("$1/blocks/${i}.toml")
       haserrors=1
     fi
   done
@@ -44,7 +44,8 @@ function check_i3() {
 }
 
 function get_i3_blocks() {
-  for i in $(ls ${I3_BLOCKS}/*.toml); do
+  include_i3=()
+  for i in $(ls $1/blocks/*.toml); do
     f=$(basename ${i} .toml)
     if [[ ! "${exclude_i3[@]}" =~ "${f}" ]];then
       include_i3+=(${f})
@@ -137,22 +138,12 @@ function install_terminator {
     cp terminator/config ${HOME}/.config/terminator/config
 }
 
-function install_sway {
-    [ ! -d "${HOME}/.config/sway/" ] && mkdir -p "${HOME}/.config/sway"
-    cp -r sway/* ${HOME}/.config/sway/
-}
-
-function install_i3 {
-    [ ! -d "${HOME}/.config/i3/" ] && mkdir -p "${HOME}/.config/i3"
-    cp -r i3/* ${HOME}/.config/i3/
-    [ ! -d "${HOME}/.config/dunst" ] && mkdir -p "${HOME}/.config/dunst"
-    cp dunst/dunstrc ${HOME}/.config/dunst/dunstrc
-
+function install_i3_blocks {
     include_i3_ordered=()
-    status_order=$(cat i3/i3status-order.conf)
+    status_order=$(cat $1/i3status-order.conf)
     for i in ${status_order[@]}; do
       if [[ "${include_i3[@]}" =~ "${i}" ]];then
-        f="${I3_BLOCKS}/${i}.toml"
+        f="$1/blocks/${i}.toml"
         if [[ "${i}" == "net_eth" || "${i}" == "net_wifi" ]];then
           if [[ "${i}" == "net_eth" && ${dev_eth} != "" ]]; then
             out=$(cat ${f} | sed "s/%DEVICE%/${dev_eth}/")
@@ -164,13 +155,33 @@ function install_i3 {
         else
           out=$(cat ${f})
         fi
-        echo "${out}" >> "${HOME}/.config/i3/i3status-rs.toml"
-        echo "" >> "${HOME}/.config/i3/i3status-rs.toml"
+        echo "${out}" >> "${HOME}/.config/$1/i3status-rs.toml"
+        echo "" >> "${HOME}/.config/$1/i3status-rs.toml"
         include_i3_ordered+=(${i})
       fi
     done
     echo "Included i3status-rs blocks:"
     echo "${include_i3_ordered[@]}"
+}
+
+function install_sway {
+    check_i3 sway
+    get_i3_blocks sway
+    [ ! -d "${HOME}/.config/sway/" ] && mkdir -p "${HOME}/.config/sway"
+    cp -r sway/* ${HOME}/.config/sway/
+    [ ! -d "${HOME}/.config/dunst" ] && mkdir -p "${HOME}/.config/dunst"
+    cp dunst/dunstrc ${HOME}/.config/dunst/dunstrc
+    install_i3_blocks sway
+}
+
+function install_i3 {
+    check_i3 i3
+    get_i3_blocks i3
+    [ ! -d "${HOME}/.config/i3/" ] && mkdir -p "${HOME}/.config/i3"
+    cp -r i3/* ${HOME}/.config/i3/
+    [ ! -d "${HOME}/.config/dunst" ] && mkdir -p "${HOME}/.config/dunst"
+    cp dunst/dunstrc ${HOME}/.config/dunst/dunstrc
+    install_i3_blocks i3
 }
 
 function install_rofi {
@@ -248,8 +259,6 @@ while [[ ! -z "$1" ]]; do
   shift
 done
 check_vim
-check_i3
-get_i3_blocks
 
 if [[ ! -d $HOME/.config ]]; then
   mkdir $HOME/.config
