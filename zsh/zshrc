@@ -105,11 +105,12 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias ls='ls --color=auto -h --group-directories-first'
-alias ll='ls -l'
+alias ls='exa --color=auto -h --group-directories-first'
+alias ll='ls -l -g -H'
 alias hh='history | grep $1'
 alias ..='cd ..'
 alias cat='bat'
+alias ssh='TERM=xterm-256color ssh'
 
 # vte configuration
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
