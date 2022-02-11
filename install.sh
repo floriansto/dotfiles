@@ -85,6 +85,7 @@ function install_zsh {
     git pull && git submodule update --init --recursive
     cd "${BASE_DIR}/zsh"
     cp "zshrc" "${HOME}/.zshrc"
+    cp "zshenv" "${HOME}/.zshenv"
     cp -r "custom/" "${OH_MY_ZSH}/custom"
     backup=""
     [ $OSTYPE != "linux-android" ] && backup="--backup"
