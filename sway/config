@@ -6,6 +6,8 @@ input "9610:8209:Glorious_Model_O_Wireless" {
   pointer_accel "-0.6"
 }
 
+seat seat0 xcursor_theme Adwaita
+
 gaps inner 6
 
 set $mod Mod4
@@ -244,12 +246,10 @@ bindsym $mod+p mode "$mode_system"
 
 ## Manual management of external displays
 # Set the shortcuts and what they do
-set $mode_display Ext Screen (v) VGA ON, (h) HDMI ON, (x) VGA OFF, (y) HDMI OFF
+set $mode_display Ext Screen (v) HDMI ON, (h) HDMI OFF (H)
 mode "$mode_display" {
-    bindsym v exec --no-startup-id xrandr --output VGA1 --auto --right-of LVDS1, mode "default"
-    bindsym h exec --no-startup-id xrandr --output HDMI1 --auto --right-of LVDS1, mode "default"
-    bindsym x exec --no-startup-id xrandr --output VGA1 --auto --off, mode "default"
-    bindsym y exec --no-startup-id xrandr --output HDMI1 --auto --off, mode "default"
+    bindsym h exec --no-startup-id swaymsg output HDMI-A-1 enable scale 1.4 && pactl set-card-profile 45 off && pactl set-card-profile 44 output:hdmi-stereo-extra2, mode "default
+    bindsym Shift+h exec --no-startup-id swaymsg output HDMI-A-1 disable && pactl set-card-profile 44 off && pactl set-card-profile 45 output:analog-surround-21+input:analog-stereo, mode "default"
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"
@@ -257,6 +257,10 @@ mode "$mode_display" {
 }
 # Declare here the shortcut to bring the display selection menu
 bindsym $mod+x mode "$mode_display"
+
+# Gaming mode
+bindsym $mod+g exec swaymsg output HDMI-A-1 enable scale 1.4 && swaymsg output DP-2 disable && pactl set-card-profile 45 off && pactl set-card-profile 44 output:hdmi-stereo-extra2 && kill -9 $(pidof redshift)
+bindsym $mod+Shift+g exec swaymsg output HDMI-A-1 disable && swaymsg output DP-2 enable scale 1.4 && pactl set-card-profile 44 off && pactl set-card-profile 45 output:analog-surround-21+input:analog-stereo && redshift -m wayland &
 
 # Start and stop droidcam
 set $mode_droidcam Droidcam: Start (s), Stop (x)
