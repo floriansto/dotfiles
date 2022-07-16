@@ -1,10 +1,9 @@
 #!/bin/bash
 
-VERSION="v0.2"
+VERSION="v0.3"
 BASE_DIR=$(dirname $0)
 cd "${BASE_DIR}"
 BASE_DIR="${PWD}"
-I3_BLOCKS="i3/blocks"
 
 function usage() {
   echo "Usage $0 [options [parameters]]"
@@ -79,7 +78,10 @@ function install_zsh {
     [ ! -d "custom/plugins" ] && mkdir -p "custom/plugins"
     cd "custom/plugins"
     [ ! -d "zsh-autosuggestions" ] && git clone https://github.com/zsh-users/zsh-autosuggestions.git
+    [ ! -d "zsh-syntax-highlighting" ] && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
     cd "zsh-autosuggestions"
+    git pull
+    cd "../zsh-syntax-highlighting"
     git pull
     cd "${OH_MY_ZSH}"
     git pull && git submodule update --init --recursive

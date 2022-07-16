@@ -1,6 +1,7 @@
+dbus-update-activation-environment --systemd DISPLAY
 # Set environment for gnome keyring
 if [ -n "$DESKTOP_SESSION" ];then
-    eval $(gnome-keyring-daemon --start)
-    export SSH_AUTH_SOCK
-    dbus-update-activation-environment --systemd DISPLAY
+  for env_var in $(gnome-keyring-daemon --start --components=pkcs11,secrets,ssh); do
+    export env_var
+  done
 fi
