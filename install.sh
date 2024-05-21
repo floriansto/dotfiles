@@ -88,7 +88,7 @@ function install_zsh {
     cd "${BASE_DIR}/zsh"
     cp "zshrc" "${HOME}/.zshrc"
     cp "zshenv" "${HOME}/.zshenv"
-    cp -r "custom/" "${OH_MY_ZSH}/custom"
+    cp -r custom/* "${OH_MY_ZSH}/custom"
     backup=""
     [ $OSTYPE != "linux-android" ] && backup="--backup"
     [ -f ~/.envConf ] && [ "`head -n1 ~/.envConf`"="# zsh config file (version: ${VERSION})" ] && source ~/.envConf || mv -vi $backup  ~/.envConf ~/.envConf_`date +%F_%H%M%S`
