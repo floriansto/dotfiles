@@ -111,6 +111,10 @@ function install_git {
     git config --global credential.helper store
     git config --global pull.rebase true
     git config --global init.defaultBranch main
+    git config --global alias.co checkout
+    git config --global alias.s status
+    git config --global alias.lg log --oneline
+    git config --global alias.br branch
 }
 
 function install_vim {
