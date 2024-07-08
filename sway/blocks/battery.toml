@@ -2,4 +2,5 @@
 block = "battery"
 device = "BAT1"
 interval = 10
-format = "{percentage} {time}"
+format = " $icon $percentage $time |"
+missing_format = ""

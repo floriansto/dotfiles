@@ -1,4 +1,7 @@
 [[block]]
 block = "sound"
-format = "{volume}"
-on_click = "i3-sensible-terminal -e pulsemixer"
+format = " $icon $volume |"
+show_volume_when_muted = true
+[[block.click]]
+button = "left"
+cmd = "i3-sensible-terminal -e pulsemixer"

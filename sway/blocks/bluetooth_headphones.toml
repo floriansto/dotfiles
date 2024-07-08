@@ -2,5 +2,4 @@
 block = "bluetooth"
 mac = "94:DB:56:54:7C:C8"
 format = ""
-format_unavailable = ""
-hide_disconnected = true
+disconnected_format = ""

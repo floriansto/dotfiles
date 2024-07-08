@@ -1,8 +1,14 @@
 [[block]]
 block = "pacman"
-interval = 10
-format= "{both} updates available"
-format_singular = "{both} update available"
-format_up_to_date = "up to date"
+interval = 600
+format = " $icon $both updates available |"
+format_singular = " $icon $both update available |"
+format_up_to_date = " up to date |"
 critical_updates_regex = "(linux)"
 aur_command = "paru -Qua"
+[[block.click]]
+button = "right"
+update = true
+[[block.click]]
+button = "left"
+cmd = "fakeroot pacman -Qu --dbpath /tmp/checkup-db-i3statusrs-$USER/ | wofi --show dmenu"

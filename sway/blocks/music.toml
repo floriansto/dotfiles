@@ -1,9 +1,4 @@
 [[block]]
 block = "music"
-player = "ncspot"
-buttons = ["play", "next"]
-on_collapsed_click = "i3-sensible-terminal -e ncspot"
-marquee = true
-marquee_interval = 2
-marquee_speed = 0.6
-dynamic_width = true
+player = "spotify"
+format = " $icon {$artist - $title $play $next |}"

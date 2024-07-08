@@ -1,4 +1,4 @@
 [[block]]
 block = "cpu"
-format = "{utilization} {frequency}"
+format = " $icon $utilization $frequency |"
 interval = 1

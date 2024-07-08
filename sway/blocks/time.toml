@@ -1,4 +1,4 @@
 [[block]]
 block = "time"
 interval = 60
-format = "%a %d.%m %R"
+format = " $icon $timestamp.datetime(f:'%a %d.%m %R') |"

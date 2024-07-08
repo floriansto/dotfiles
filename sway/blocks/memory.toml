@@ -1,7 +1,6 @@
 [[block]]
 block = "memory"
-display_type = "memory"
-format_mem = "{mem_used}/{mem_total}"
-icons = true
-clickable = false
+format = " $icon $mem_used.eng(w:1)/$mem_total.eng(w:1) |"
+warning_mem = 70
+critical_mem = 90
 interval = 5

@@ -1,6 +1,5 @@
 [[block]]
 block = "bluetooth"
 mac = "DC:2C:26:EE:1B:0E"
-format = ""
-format_unavailable = ""
-hide_disconnected = true
+format = " $icon |"
+disconnected_format = ""
