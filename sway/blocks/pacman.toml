@@ -11,4 +11,4 @@ button = "right"
 update = true
 [[block.click]]
 button = "left"
-cmd = "fakeroot pacman -Qu --dbpath /tmp/checkup-db-i3statusrs-$USER/ | wofi --show dmenu"
+cmd = "fakeroot paru -Qua --dbpath /tmp/checkup-db-i3statusrs-$USER/ | wofi --show dmenu"
