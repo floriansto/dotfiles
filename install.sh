@@ -135,9 +135,9 @@ function install_vim {
     fi
 }
 
-function install_redshift {
-    [ ! -d "${HOME}/.config/redshift/" ] && mkdir -p "${HOME}/.config/redshift"
-    cp redshift/redshift.conf ${HOME}/.config/redshift/redshift.conf
+function install_gammastep {
+    [ ! -d "${HOME}/.config/gammastep/" ] && mkdir -p "${HOME}/.config/gammastep"
+    cp gammastep/* ${HOME}/.config/gammastep/
 }
 
 function install_terminator {
@@ -278,7 +278,7 @@ for job in git zsh vim; do
 done
 
 if [[ ${graphical} -gt 0 ]]; then
-  for job in redshift alacritty terminator i3 libinput_gestures rofi wofi gtk3 sway systemd_user; do
+  for job in gammastep alacritty terminator i3 libinput_gestures rofi wofi gtk3 sway systemd_user; do
       log "installing configuration for '$job'"
       install_${job}
       cd "${BASE_DIR}"

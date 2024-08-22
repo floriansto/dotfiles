@@ -41,7 +41,7 @@ exec swayidle -w \
   before-sleep $lock
 
 # Start redshift
-exec --no-startup-id redshift -m wayland
+exec --no-startup-id gammastep -m wayland
 
 # Start libinput-gestures
 exec_always --no-startup-id libinput-gestures-setup start
