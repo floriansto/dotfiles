@@ -221,6 +221,10 @@ function install_systemd_user {
     done
 }
 
+function install_electron {
+  cp electron_flags/* ${HOME}/.config/
+}
+
 vim="standard"
 vim_opt=0
 exclude_i3=()
@@ -278,7 +282,7 @@ for job in git zsh vim; do
 done
 
 if [[ ${graphical} -gt 0 ]]; then
-  for job in gammastep alacritty terminator i3 libinput_gestures rofi wofi gtk3 sway systemd_user; do
+  for job in gammastep alacritty i3 libinput_gestures rofi wofi gtk3 sway systemd_user electron; do
       log "installing configuration for '$job'"
       install_${job}
       cd "${BASE_DIR}"
