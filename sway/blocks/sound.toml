@@ -4,4 +4,4 @@ format = " $icon $volume |"
 show_volume_when_muted = true
 [[block.click]]
 button = "left"
-cmd = "i3-sensible-terminal -e pulsemixer"
+cmd = "alacritty -e pulsemixer"
