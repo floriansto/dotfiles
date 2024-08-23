@@ -204,6 +204,8 @@ function install_wofi {
 function install_alacritty {
     [ ! -d "${HOME}/.config/alacritty/" ] && mkdir -p "${HOME}/.config/alacritty"
     cp -r alacritty/* ${HOME}/.config/alacritty/
+    gsettings set org.cinnamon.desktop.default-applications.terminal exec alacritty
+    gsettings set org.gnome.desktop.default-applications.terminal exec alacritty
 }
 
 function install_libinput_gestures {
