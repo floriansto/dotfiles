@@ -110,8 +110,13 @@ alias ls='exa --color=auto -h --group-directories-first'
 alias ll='ls -l -g -H'
 alias hh='history | grep $1'
 alias ..='cd ..'
-alias cat='bat'
 alias ssh='TERM=xterm-256color ssh'
+
+if [[ $(/usr/bin/cat /etc/os-release | grep "^ID=") == "ID=debian" ]]; then
+  alias cat='batcat'
+else
+  alias cat='bat'
+fi
 
 # vte configuration
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
