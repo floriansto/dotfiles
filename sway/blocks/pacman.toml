@@ -1,8 +1,9 @@
 [[block]]
-block = "pacman"
+block = "packages"
+package_manager = ["pacman", "aur"]
 interval = 600
-format = " $icon $both updates available |"
-format_singular = " $icon $both update available |"
+format = " $icon $total updates available |"
+format_singular = " $icon $total update available |"
 format_up_to_date = " up to date |"
 critical_updates_regex = "(linux)"
 aur_command = "paru -Qua"
