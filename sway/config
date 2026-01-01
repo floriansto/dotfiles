@@ -1,3 +1,7 @@
+#==========================
+# Mouse and keyboard inputs
+#==========================
+
 # US-Intl keyboard layout
 input * xkb_layout "us"
 input * xkb_variant "altgr-intl"
@@ -12,63 +16,57 @@ input type:touchpad {
   click_method clickfinger
 }
 
-seat seat0 xcursor_theme Adwaita
 
-gaps inner 6
+#================
+# Display outputs
+#================
 
-set $mod Mod4
+output DP-2 scale 1.4
+output HDMI-A-1 disable
+#output HDMI-A-1 pos 3840 0 res 3840x2160
 
-# This font is widely installed, provides lots of unicode glyphs, right-to-left
-# text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:DejaVu Sans Mono 8
 
-set $lock ~/.config/sway/lock.sh
-set $Locker ~/.config/sway/lock.sh && sleep 1
+#===========
+# Lockscreen
+#===========
+set $lock ~/.config/sway/scripts/lock.sh
 
-# The combination of xss-lock, nm-applet and pactl is a popular choice, so
-# they are included here as an example. Modify as you see fit.
 
-# Inhibit Idle if a window is fullscreen or audio is playing
-for_window [app_id="^.*"] inhibit_idle fullscreen
-for_window [class="^.*"] inhibit_idle fullscreen
-exec sway-audio-idle-inhibit
-
-# Lock screen an suspend
+#==========
+# Autostart
+#==========
 exec swayidle -w \
-  timeout 300 $lock \
-  timeout 600 'swaymsg "output * dpms off"' \
-      resume 'swaymsg "output * dpms on"' \
-  before-sleep $lock
-
-# Start redshift
+     timeout 300 $lock \
+     timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+     before-sleep $lock
 exec --no-startup-id gammastep -m wayland
-
-# Start libinput-gestures
+exec --no-startup-id nextcloud
+exec_always --no-startup-id sway-audio-idle-inhibit
 exec_always --no-startup-id libinput-gestures-setup start
-
-# Get new bing wallpaper
 exec_always --no-startup-id systemctl --user restart wallpaper.service
-
-# Start nextcloud
-exec_always --no-startup-id nextcloud
-
-# Start kdeconnect
-exec_always --no-startup-id /usr/lib/kdeconnectd
-exec_always --no-startup-id kdeconnect-indicator
-
-# NetworkManager is the most popular way to manage wireless networks on Linux,
-# and nm-applet is a desktop environment-independent system tray GUI for it.
-#exec --no-startup-id nm-applet
-
-# Spiral tiling (needs autotiling package from AUR)
 exec_always --no-startup-id autotiling
+exec_always --no-startup-id wl-paste --watch cliphist store
+
+
+#========
+# Theming
+#========
+seat seat0 xcursor_theme Adwaita
+gaps inner 10
+font pango:Jetbrains Mono 8
+for_window [app_id="^.*"] border pixel 3
+
+
+#============
+# Keybindings
+#============
+set $mod Mod4
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status-rs
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q -D pulse sset Master 5%+ && $refresh_i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q -D pulse sset Master 5%- && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id amixer -q -D pulse sset Master toggle && $refresh_i3status
-#bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 # Start pulsemixer
 bindsym $mod+z exec alacritty -e pulsemixer
@@ -80,18 +78,6 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioStop exec playerctl pause
 
-bindsym $mod+o exec grim -g "$(slurp)"
-
-# use these keys for focus, movement, and resize directions when reaching for
-# the arrows is not convenient
-set $up k
-set $down j
-set $left h
-set $right l
-
-# Use Mouse+$mod to drag floating windows to their wanted position
-floating_modifier $mod
-
 # start a terminal
 bindsym $mod+Return exec alacritty
 
@@ -100,6 +86,31 @@ bindsym $mod+Shift+q kill
 
 # Start the menu
 bindsym $mod+d exec "wofi"
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
+# Clipboard history
+bindsym $mod+c exec cliphist list | wofi -S dmenu | cliphist decode | wl-copy
+
+# Power menu
+bindsym $mod+x exec nwg-bar -t bar.json
+
+
+
+#==========
+# Movements
+#==========
+set $up k
+set $down j
+set $left h
+set $right l
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
 
 # change focus
 bindsym $mod+$left focus left
@@ -124,6 +135,11 @@ bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
+
+
+#===============
+# Layout changes
+#===============
 
 # split in horizontal orientation
 bindsym $mod+b split h
@@ -150,6 +166,11 @@ bindsym $mod+a focus parent
 
 # focus the child container
 #bindsym $mod+d focus child
+
+
+#===========
+# Workspaces
+#===========
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -202,14 +223,11 @@ bindsym $mod+Shift+minus move scratchpad
 # Show the first scratchpad window
 bindsym $mod+minus scratchpad show
 
-# reload the configuration file
-bindsym $mod+Shift+c reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
-# exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
-# resize window (you can also use the mouse for that)
+#=========
+# Resizing
+#=========
+
 mode "resize" {
     # These bindings trigger as soon as you enter the resize mode
 
@@ -236,53 +254,34 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-set $mode_system System (l) lock, (e) logout, (s) suspend, (r) reboot, (Shift+s) shutdown
-mode "$mode_system" {
-    bindsym l exec --no-startup-id $Locker, mode "default"
-    bindsym e exec --no-startup-id swaymsg exit, mode "default"
-    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
-    #bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
-    bindsym r exec --no-startup-id systemctl reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"
 
-    # back to normal: Enter or Escape
-    bindsym Return mode "default"
-        bindsym Escape mode "default"
-}
-
-bindsym $mod+p mode "$mode_system"
-
-## Manual management of external displays
-# Set the shortcuts and what they do
-set $mode_display Ext Screen (v) HDMI ON, (h) HDMI OFF (H)
-mode "$mode_display" {
-    bindsym h exec --no-startup-id swaymsg output HDMI-A-1 enable scale 1.4 && pactl set-card-profile 45 off && pactl set-card-profile 44 output:hdmi-stereo-extra2, mode "default
-    bindsym Shift+h exec --no-startup-id swaymsg output HDMI-A-1 disable && pactl set-card-profile 44 off && pactl set-card-profile 45 output:analog-surround-21+input:analog-stereo, mode "default"
-
+#===========
+# Screenshot
+#===========
+set $mode_screenshot Take a screenshot: (c)urrent window, (a)rea, (w)indow
+mode "$mode_screenshot" {
+    bindsym c exec $HOME/.config/sway/scripts/grimshot.sh save active - | swappy -f -, mode "default"
+    bindsym a exec $HOME/.config/sway/scripts/grimshot.sh save area  - | swappy -f -, mode "default"
+    bindsym w exec $HOME/.config/sway/scripts/grimshot.sh save window - | swappy -f -, mode "default"
     # back to normal: Enter or Escape
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-# Declare here the shortcut to bring the display selection menu
-bindsym $mod+x mode "$mode_display"
+bindsym $mod+p mode "$mode_screenshot"
 
+
+#============
 # Gaming mode
-bindsym $mod+g exec swaymsg output HDMI-A-1 enable scale 1.4 && swaymsg output DP-2 disable && pactl set-card-profile 45 off && pactl set-card-profile 44 output:hdmi-stereo-extra2 && kill -9 $(pidof redshift)
-bindsym $mod+Shift+g exec swaymsg output HDMI-A-1 disable && swaymsg output DP-2 enable scale 1.4 && pactl set-card-profile 44 off && pactl set-card-profile 45 output:analog-surround-21+input:analog-stereo && redshift -m wayland &
+#============
 
-# Start and stop droidcam
-set $mode_droidcam Droidcam: Start (s), Stop (x)
-mode "$mode_droidcam" {
-    bindsym s exec droidcam-cli -v 192.168.0.92 4747, mode "default"
-    bindsym x exec --no-startup-id kill -9 $(pidof droidcam-cli), mode "default"
+bindsym $mod+g exec swaymsg output HDMI-A-1 enable scale 1.4 && swaymsg output DP-2 disable && pactl set-card-profile 45 off && pactl set-card-profile 44 output:hdmi-stereo-extra2
+bindsym $mod+Shift+g exec swaymsg output HDMI-A-1 disable && swaymsg output DP-2 enable scale 1.4 && pactl set-card-profile 44 off && pactl set-card-profile 45 output:analog-surround-21+input:analog-stereo &
 
-    # back to normal: Enter or Escape
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
-bindsym $mod+c mode "$mode_droidcam"
 
+#====================
 # Set keyboard layout
+#====================
+
 set $mode_keyboard Keyboard: de (d), us-intl (u)
 mode "$mode_keyboard" {
     bindsym d exec --no-startup-id setxkbmap -layout de, mode "default"
@@ -294,60 +293,32 @@ mode "$mode_keyboard" {
 }
 bindsym $mod+i mode "$mode_keyboard"
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-set $base00 #101218
-set $base01 #1f222d
-set $base02 #252936
-set $base03 #5e81ac
-set $base04 #C0C5CE
-set $base05 #d1d4e0
-set $base06 #C9CCDB
-set $base07 #ffffff
-set $base08 #ee829f
-set $base09 #f99170
-set $base0A #ffefcc
-set $base0B #a5ffe1
-set $base0C #97e0ff
-set $base0D #97bbf7
-set $base0E #c0b7f9
-set $base0F #fcc09e
-
 bar {
-    #status_command i3status
-    font pango:DejaVu Sans Mono, FontAwesome 9
-    position top
-    gaps 6 6
-    status_command i3status-rs ${HOME}/.config/sway/i3status-rs.toml
-    colors {
-        separator  $base01
-        background $base01
-        statusline #81a1c1
-
-        #                   border  background text
-        focused_workspace  $base01 $base01    #81a1c1
-        active_workspace   $base01 $base02    $base03
-        inactive_workspace $base01 $base01    #4c566a
-        urgent_workspace   $base01 $base01    $base08
-        binding_mode       $base01 #81a1c1    #2e3440
-    }
+    swaybar_command waybar
 }
 
-##START THEMING WM
-#Theme name : ArcoLinux Mastermind
-
 # Window color settings
+set $u_back #2e2e2e
+set $u_text #aaaaaa
+set $f_back #89b4fa
+set $f_text #ffffff
+
 # class                 border  backgr. text    indicator
-client.focused          $base03 $base03 #ffffff $base03
-client.unfocused        #2e3440 #2e3440 #81a1c1 #2e3440
-client.focused_inactive #2e3440 #2e3440 #81a1c1 #2e3440
-client.placeholder      #2e3440 #2e3440 #81a1c1 #2e3440
+client.focused          $f_back $f_back $f_text $f_back
+client.unfocused        $u_back $u_back $u_text $u_back
+client.focused_inactive $u_back $u_back $u_text $u_back
 client.urgent           #900000 #900000 #ffffff #900000
 
-client.background       #242424
+#======
+# Rules
+#======
+for_window [app_id="org.speedcrunch.speedcrunch"] floating enable, move center
+for_window [app_id="blueman-manager"] floating enable, move center
+for_window [app_id="localsend"] floating enable, resize set width 900, move center
+for_window [app_id="wdisplays"] floating enable, resize set width 1000 height 600, move center
+for_window [app_id="Alacritty" title="pulsemixer"] floating enable
 
-##STOP THEMING WM
+# Inhibit Idle if a window is fullscreen or audio is playing
+for_window [app_id="^.*"] inhibit_idle fullscreen
+for_window [class="^.*"] inhibit_idle fullscreen
 
-output DP-2 scale 1.4
-output HDMI-A-1 disable
-#output HDMI-A-1 pos 3840 0 res 3840x2160

@@ -1,6 +1,7 @@
 show_all=true
 allow_images=true
-image_size=15px
+image_size=30px
 show=drun
 term=alacritty
 no_actions=true
+width=1000

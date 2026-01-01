@@ -1,7 +1,0 @@
-[[block]]
-block = "sound"
-format = " $icon $volume |"
-show_volume_when_muted = true
-[[block.click]]
-button = "left"
-cmd = "alacritty -e pulsemixer"

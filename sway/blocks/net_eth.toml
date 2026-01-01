@@ -1,7 +1,0 @@
-[[block]]
-block = "net"
-device = "%DEVICE%"
-format = " $icon $ip $speed_down.eng(w:3) |"
-interval = 5
-inactive_format = " $icon Down |"
-missing_format = " $icon x |"

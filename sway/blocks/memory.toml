@@ -1,6 +1,0 @@
-[[block]]
-block = "memory"
-format = " $icon $mem_used.eng(w:1)/$mem_total.eng(w:1) |"
-warning_mem = 70
-critical_mem = 90
-interval = 5

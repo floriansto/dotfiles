@@ -1,5 +1,0 @@
-[[block]]
-block = "backlight"
-device = "intel_backlight"
-missing_format = ""
-step_width = 5

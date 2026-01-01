@@ -1,4 +1,0 @@
-[[block]]
-block = "cpu"
-format = " $icon $utilization $frequency |"
-interval = 1

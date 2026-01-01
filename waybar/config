@@ -1,0 +1,161 @@
+{
+    // "layer": "top", // Waybar at top layer
+    // "position": "bottom", // Waybar position (top|bottom|left|right)
+    // "height": 30, // Waybar height (to be removed for auto height)
+    "margin": "10 10 0 10",
+    // "width": 1280, // Waybar width
+    // Choose the order of the modules
+    "modules-left": ["sway/workspaces", "sway/scratchpad", "bluetooth", "sway/mode"],
+    "modules-center": ["clock", "custom/weather"],
+    "modules-right": ["mpris", "pulseaudio", "custom/pacman", "network", "cpu", "memory", "backlight", "battery", "tray"],
+
+
+    //***************************
+    //*  Modules configuration  *
+    //***************************
+
+    "sway/workspaces": {
+        "disable-scroll": true,
+    },
+
+    "sway/scratchpad": {
+        "format": "{icon} {count}",
+        "show-empty": true,
+        "format-icons": ["", ""],
+        "tooltip": true,
+        "tooltip-format": "{app}: {title}"
+    },
+
+    "bluetooth": {
+        "format": " {status}",
+        "format-connected": " {num_connections}",
+        // "format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device
+        "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+        "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+        "on-click": "blueman-manager"
+    },
+
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+
+    "clock": {
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format": "{:%a, %d %b, %H:%M}"
+    },
+
+    "custom/weather": {
+        "format": "{}",
+        "tooltip": true,
+        "interval": 1800,
+        "exec": "$HOME/.config/waybar/scripts/wttr.py",
+        "return-type": "json"
+    },
+
+    "mpris": {
+        "format": "{player_icon} {artist} - {title}",
+        "format-paused": "{status_icon} <i>{artist} - {title}</i>",
+        "player-icons": {
+          "default": "▶",
+          "mpv": "🎵",
+          "spotify": "󰓇"
+        },
+        "status-icons": {
+          "paused": "⏸"
+        },
+        // "ignored-players": ["firefox"]
+    },
+
+    "pulseaudio": {
+        // "scroll-step": 1, // %, can be a float
+        "reverse-scrolling": 1,
+        "format": "{icon} {volume}% {format_source}",
+        "format-bluetooth": "{icon} {volume}% {format_source}",
+        "format-bluetooth-muted": "{icon}  {format_source}",
+        "format-muted": "󰖁    {format_source}",
+        "format-source": " {volume}%",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["󰕿", "󰖀", "󰕾"]
+        },
+        "on-click": "alacritty --title pulsemixer -e pulsemixer",
+        "min-length": 13,
+    },
+
+    "custom/pacman": {
+        "format": " {}",
+        "interval": 3600,                     			// every hour
+        "exec": "(checkupdates;paru -Qua) | wc -l",	// # of updates
+        "exec-if": "exit 0",                  			// always run; consider advanced run conditions
+        "on-click": "alacritty -e sudo pacman -Syu", // update system
+    },
+
+    "network": {
+        "interface": "enp4s0",
+        "format": "{ifname}",
+        "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-ethernet": "󰈀 {ipaddr}",
+        "format-disconnected": "󰌙", //An empty format will hide the module.
+        "tooltip-format": "{ifname} via {gwaddr} 󰊗",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
+        "tooltip-format-ethernet": "{ifname} ",
+        "tooltip-format-disconnected": "Disconnected",
+        "max-length": 50
+    },
+
+    "cpu": {
+        "format": "󰡵 {usage:3d}%",
+        "interval": 3,
+        "tooltip": true,
+    },
+
+    "memory": {
+        "format": "󰍛 {percentage:2d}%",
+        "interval": 3,
+        "tooltip": true,
+        "tooltip-format": "used {used:0.1f}G/{total:0.1f}G"
+    },
+
+    "temperature": {
+        // "thermal-zone": 2,
+        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 80,
+        // "format-critical": "{temperatureC}°C {icon}",
+        "format": "{temperatureC}°C {icon}",
+        "format-icons": ["", "", "", "", ""],
+        "tooltip": false,
+    },
+
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "{percent}% {icon}",
+        "format-icons": ["","","","", "", "", ""],
+        "min-length": 7,
+    },
+
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}% {icon}",
+        "format-charging": "{capacity}% ",
+        "format-plugged": "{capacity}% ",
+        "format-alt": "{time} {icon}",
+        "format-icons": ["", "", "", "", "", "", "", "", "", ""],
+  "on-update": "$HOME/.config/waybar/scripts/check_battery.sh",
+    },
+
+    "tray": {
+        "icon-size": 16,
+        "spacing": 6
+    },
+}
