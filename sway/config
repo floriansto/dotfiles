@@ -9,11 +9,19 @@ input "9610:8209:Glorious_Model_O_Wireless" {
   accel_profile "flat"
   pointer_accel "-0.6"
 }
+input "2:10:TPPS/2_Elan_TrackPoint" {
+  accel_profile "flat"
+  pointer_accel "-0.1"
+  scroll_factor 0.2
+}
 input type:touchpad {
   natural_scroll enabled
   scroll_method two_finger
   tap_button_map lrm
   click_method clickfinger
+  clickfinger_button_map lrm
+  dwt disabled
+  dwtp disabled
 }
 
 
@@ -22,6 +30,7 @@ input type:touchpad {
 #================
 
 output DP-2 scale 1.4
+output eDP-1 scale 1.2
 output HDMI-A-1 disable
 #output HDMI-A-1 pos 3840 0 res 3840x2160
 
@@ -147,7 +156,7 @@ bindsym $mod+Shift+Right move right
 bindsym $mod+b split h
 
 # split in vertical orientation
-bindsym $mod+v split v
+bindsym $mod+n split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
