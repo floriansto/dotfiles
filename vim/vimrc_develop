@@ -1,14 +1,22 @@
+function! s:TexFocusVim() abort
+  " Give window manager time to recognize focus moved to Zathura;
+  " tweak the 200m (200 ms) as needed for your hardware and window manager.
+  sleep 200m
+
+  " Refocus Vim and redraw the screen
+  silent execute "!xdotool windowfocus " . expand(g:vim_window_id)
+  redraw!
+endfunction
+
+
 set nocompatible
 filetype off
-
-highlight Normal ctermfg=grey ctermbg=black
 
 "plugins
 call plug#begin('~/.vim/bundle')
 
 Plug 'sjl/gundo.vim'
-Plug 'altercation/vim-colors-solarized'
-Plug 'arcticicestudio/nord-vim'
+Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'chrisbra/Recover.vim'
 Plug 'davidhalter/jedi-vim', {'for': 'python'}
 Plug 'ervandew/supertab'
@@ -29,6 +37,7 @@ call plug#end()
 filetype plugin indent on
 syntax on
 
+set termguicolors
 set background=dark
 set t_Co=256
 set term=xterm-256color
@@ -36,7 +45,7 @@ set t_ut=
 let g:solarized_termcolors=256
 let g:solarized_contrast="high"
 let g:solarized_visibility="high"
-colorscheme nord
+colorscheme catppuccin_mocha
 set autoread
 set encoding=utf-8
 set mouse=a
@@ -83,12 +92,12 @@ let g:syntastic_ignore_files = ['\m^/images/', '\m\c\.pdf_tex$', '\m\c\.tex$']
 
 let g:NERDTreeQuitOnOpen = 1
 
-let g:vimtex_view_general_viewer = 'qpdfview'
-let g:vimtex_view_general_options
-            \ = '--unique @pdf\#src:@tex:@line:@col'
-let g:vimtex_view_general_options_latexmk = '--unique'
-let g:vimtex_latexmk_continuous = 1
-let g:vimtex_quickfix_mode = 0
+let g:vimtex_view_method = 'zathura'
+"let g:vimtex_view_general_options
+"            \ = '--unique @pdf\#src:@tex:@line:@col'
+"let g:vimtex_view_general_options_latexmk = '--unique'
+"let g:vimtex_latexmk_continuous = 1
+"let g:vimtex_quickfix_mode = 0
 
 let g:tex_flavor = "latex"
 
@@ -105,6 +114,10 @@ set expandtab
 let mapleader=","
 let maplocalleader = "\\"
 
+nmap <leader>v <plug>(vimtex-view)
+nmap <leader>ll <plug>(vimtex-compile)
+nmap <leader>li <plug>(vimtex-info)
+
 set scrolloff=4
 set laststatus=2
 
@@ -114,6 +127,23 @@ autocmd InsertEnter * :set number
 autocmd InsertEnter * :set norelativenumber
 autocmd InsertLeave * :set relativenumber
 
+" This will only work if `vim --version` includes `+clientserver`!
+if empty(v:servername) && exists('*remote_startserver')
+  call remote_startserver('VIM')
+endif
+
+" Get Vim's window ID for switching focus from Zathura to Vim using xdotool.
+" Only set this variable once for the current Vim instance.
+if !exists("g:vim_window_id")
+  let g:vim_window_id = system("xdotool getactivewindow")
+endif
+
 if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 endif
+
+augroup vimtex_event_focus
+  au!
+  au User VimtexEventView call s:TexFocusVim()
+augroup END
+

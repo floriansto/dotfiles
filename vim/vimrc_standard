@@ -1,14 +1,11 @@
 set nocompatible
 filetype off
 
-highlight Normal ctermfg=grey ctermbg=black
-
 "plugins
 call plug#begin('~/.vim/bundle')
 
 Plug 'sjl/gundo.vim'
-Plug 'altercation/vim-colors-solarized'
-Plug 'arcticicestudio/nord-vim'
+Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'chrisbra/Recover.vim'
 Plug 'ervandew/supertab'
 Plug 'godlygeek/tabular'
@@ -22,6 +19,7 @@ call plug#end()
 filetype plugin indent on
 syntax on
 
+set termguicolors
 set background=dark
 set t_Co=256
 set term=xterm-256color
@@ -29,7 +27,7 @@ set t_ut=
 let g:solarized_termcolors=256
 let g:solarized_contrast="high"
 let g:solarized_visibility="high"
-colorscheme nord
+colorscheme catppuccin_mocha
 set autoread
 set encoding=utf-8
 set mouse=a
