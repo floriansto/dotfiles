@@ -1,0 +1,11 @@
+show_all=true
+allow_images=true
+image_size=300px
+show=drun
+term=alacritty
+no_actions=true
+width=1500
+height=800
+pre_display_exec=true
+columns=2
+
