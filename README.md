@@ -8,6 +8,14 @@ git vim curl
 ```
 To get new wallpapers based on the bing image of the day you need to clone the repository [https://github.com/markasoftware/bing-wallpaper-linux.git](https://github.com/markasoftware/bing-wallpaper-linux.git) to your `/opt` directory.
 
+## Optional packages
+
+The following packages are recommended for the dotfiles to function correctly
+
+```
+swappy grim slurp waybar alacritty exa bat adobe-source-code-pro-fonts ttf-nerd-fonts-symbols nwg-bar nwg-look-bin wofi gammastep cliphist imagemagick jq python python-requests autotiling
+```
+
 # Usage
 Run
 ```
