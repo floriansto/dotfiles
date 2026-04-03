@@ -45,7 +45,8 @@ exec_always --no-startup-id sway-audio-idle-inhibit
 exec_always --no-startup-id libinput-gestures-setup start
 exec_always --no-startup-id systemctl --user restart wallpaper.service
 exec_always --no-startup-id autotiling
-exec_always --no-startup-id wl-paste --watch cliphist store
+exec_always --no-startup-id wl-paste --type text --watch cliphist store
+exec_always --no-startup-id wl-paste --type image --watch cliphist store
 
 
 #========
@@ -94,7 +95,8 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 
 # Clipboard history
-bindsym $mod+c exec cliphist list | wofi -S dmenu | cliphist decode | wl-copy
+bindsym $mod+v exec cliphist list | grep -v "\[\[ binary data" | wofi -S dmenu | cliphist decode | wl-copy
+bindsym $mod+i exec cliphist list | grep "\[\[ binary data" | wofi --conf ~/.config/wofi/config_images --dmenu --allow-images --pre-display-cmd "cliphist-wofi-img %s" | cliphist decode | wl-copy
 
 # Power menu
 bindsym $mod+x exec nwg-bar -t bar.json
@@ -291,7 +293,7 @@ mode "$mode_keyboard" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-bindsym $mod+i mode "$mode_keyboard"
+bindsym $mod+t mode "$mode_keyboard"
 
 bar {
     swaybar_command waybar
