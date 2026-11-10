@@ -103,7 +103,7 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias ls='exa --color=auto -h --group-directories-first'
+alias ls='eza --color=auto -h --group-directories-first'
 alias ll='ls -l -g -H'
 alias hh='history | grep $1'
 alias ..='cd ..'
